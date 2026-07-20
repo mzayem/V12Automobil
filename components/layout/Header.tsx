@@ -13,10 +13,19 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerClose,
+} from "@/components/ui/drawer";
+import { Menu, X } from "lucide-react";
+import { Button } from "../ui/button";
+import { CONTACT, FOOTER_SOCIALS } from "@/lib/data";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const close = () => setOpen(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-background">
@@ -77,38 +86,83 @@ export default function Header() {
         </NavigationMenu>
 
         {/* Mobile Menu Button */}
-        <button
-          type="button"
-          className="ml-auto flex flex-col gap-1.5 p-2 md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className="block h-0.5 w-6 bg-bianco" />
-          <span className="block h-0.5 w-6 bg-bianco" />
-          <span className="block h-0.5 w-6 bg-bianco" />
-        </button>
-      </div>
+        <Drawer open={open} onOpenChange={setOpen} swipeDirection="right">
+          <Button
+            variant="outline"
+            size={"icon-lg"}
+            className="border-white/15 bg-transparent text-bianco hover:border-rosso hover:bg-white/10 hover:text-rosso md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <Menu width={22} height={22} />
+          </Button>
+          <DrawerContent className="ml-auto flex h-full w-[85vw] max-w-xs flex-col rounded-none border-l border-white/10 bg-night sm:max-w-sm">
+            {/* Tricolore accent */}
+            <div className="flex h-1 shrink-0">
+              <span className="flex-1 bg-verde" />
+              <span className="flex-1 bg-bianco" />
+              <span className="flex-1 bg-rosso" />
+            </div>
 
-      {/* Mobile Navigation */}
-      {open && (
-        <nav
-          id="mobile-nav"
-          className="flex flex-col gap-4 border-t border-white/10 bg-black px-6 py-6 md:hidden"
-        >
-          {[...NAV_LEFT, ...NAV_RIGHT].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={close}
-              className="text-bianco transition-colors hover:text-rosso"
+            <DrawerHeader className="flex shrink-0 flex-row items-center justify-between border-b border-white/10 p-5">
+              <DrawerTitle className="font-display text-lg font-semibold uppercase tracking-[0.3em] text-bianco">
+                Menu
+              </DrawerTitle>
+              <DrawerClose
+                aria-label="Close menu"
+                className="flex size-9 items-center justify-center rounded-full text-bianco/70 transition-colors hover:bg-white/10 hover:text-rosso"
+              >
+                <X width={18} height={18} />
+              </DrawerClose>
+            </DrawerHeader>
+
+            <nav
+              id="mobile-nav"
+              className="flex flex-1 flex-col overflow-y-auto px-2 py-2"
             >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      )}
+              {[...NAV_LEFT, ...NAV_RIGHT].map((item, i) => (
+                <DrawerClose
+                  key={item.href}
+                  render={<Link href={item.href} />}
+                  className="group flex items-center gap-4 border-b border-white/5 px-4 py-4 text-left transition-colors last:border-none hover:bg-white/5"
+                >
+                  <span className="font-display text-xs text-bianco/30 transition-colors group-hover:text-rosso">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-display text-xl tracking-wide text-bianco transition-colors group-hover:text-rosso">
+                    {item.label}
+                  </span>
+                </DrawerClose>
+              ))}
+            </nav>
+
+            <div className="shrink-0 space-y-4 border-t border-white/10 p-5">
+              <a
+                href={`tel:${CONTACT.phone.replace(/[^+\d]/g, "")}`}
+                className="block text-center font-display text-base tracking-wide text-bianco transition-colors hover:text-rosso"
+              >
+                {CONTACT.phone}
+              </a>
+              <div className="flex items-center justify-center gap-3">
+                {FOOTER_SOCIALS.map((social) => (
+                  <a
+                    key={social.Id}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center border border-white/15 text-xs font-semibold text-bianco/70 transition-colors hover:border-rosso hover:text-rosso"
+                  >
+                    {social.label[0]}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      </div>
     </header>
   );
 }
