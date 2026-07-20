@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 const inputClass =
   "w-full bg-bianco px-4 py-2.5 text-sm text-night placeholder:text-night/40 focus:outline-none focus:ring-2 focus:ring-rosso";
@@ -48,16 +49,16 @@ export default function SellCarForm() {
     <section className="relative overflow-hidden py-24">
       {/* Background image — drop your showroom shot in /public/images/sell-bg.jpg */}
       <Image
-        src="/images/sell-bg.jpg"
+        src="/images/contact.jpg"
         alt=""
         fill
         aria-hidden
         className="object-cover object-center opacity-40"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-night via-transparent to-night" />
+      <div className="absolute inset-0 bg-linear-to-b from-night via-transparent to-night" />
 
       <div className="relative mx-auto max-w-3xl px-6">
-        <h2 className="heading-display mb-4 text-center text-3xl text-bianco sm:text-4xl">
+        <h2 className="font-display mb-4 text-center text-3xl text-bianco sm:text-4xl">
           Find Your Car&apos;s Next Home
         </h2>
         <p className="mb-12 text-center font-serif text-base leading-relaxed text-bianco/85">
@@ -76,18 +77,21 @@ export default function SellCarForm() {
             {/* Stepper */}
             <div className="mb-10 flex items-center">
               {[1, 2].map((n, i) => (
-                <div key={n} className={`flex items-center ${i === 1 ? "" : "flex-1"}`}>
+                <div
+                  key={n}
+                  className={`flex items-center ${i === 1 ? "" : "flex-1"}`}
+                >
                   <span
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-display text-sm ${
-                      step >= n
-                        ? "bg-rosso text-white"
-                        : "bg-bianco text-night"
+                      step >= n ? "bg-rosso text-white" : "bg-bianco text-night"
                     }`}
                     aria-current={step === n ? "step" : undefined}
                   >
                     {n}
                   </span>
-                  {i === 0 && <span className="mx-3 h-px flex-1 bg-bianco/60" />}
+                  {i === 0 && (
+                    <span className="mx-3 h-px flex-1 bg-bianco/60" />
+                  )}
                 </div>
               ))}
             </div>
@@ -118,13 +122,13 @@ export default function SellCarForm() {
                   onChange={update("telephone")}
                 />
                 <div className="sm:col-span-3">
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
                     onClick={() => setStep(2)}
-                    className="btn-rosso w-full sm:w-auto sm:min-w-[220px]"
+                    className="w-full sm:w-auto sm:min-w-55"
                   >
                     Next
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
@@ -156,20 +160,16 @@ export default function SellCarForm() {
                   onChange={update("mileage")}
                 />
                 <div className="flex gap-4 sm:col-span-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="outline"
                     onClick={() => setStep(1)}
-                    className="border border-bianco/40 px-6 py-2.5 font-display text-xs font-semibold uppercase tracking-[0.25em] text-bianco transition-colors hover:border-bianco"
+                    className="bg-transparent"
                   >
                     Back
-                  </button>
-                  <button
-                    type="button"
-                    onClick={submit}
-                    className="btn-rosso flex-1"
-                  >
+                  </Button>
+                  <Button onClick={submit} className="flex-1">
                     Send Details
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}

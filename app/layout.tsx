@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Cormorant_Garamond } from "next/font/google";
+import { Bebas_Neue, Geist_Mono, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
@@ -8,10 +12,9 @@ const bebasNeue = Bebas_Neue({
   weight: "400",
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,10 +29,17 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${bebasNeue.variable} ${cormorant.variable}`}
+      className={cn(
+        bebasNeue.variable,
+        geistMono.variable,
+        "font-sans",
+        geist.variable,
+      )}
     >
       <body className="bg-night text-bianco antialiased">
-        <main>{children}</main>
+        <main>
+          <TooltipProvider>{children}</TooltipProvider>
+        </main>
       </body>
     </html>
   );

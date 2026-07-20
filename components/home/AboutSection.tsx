@@ -1,8 +1,8 @@
 export default function AboutSection() {
   return (
     <section className="mx-auto max-w-4xl px-6 pt-24 text-center">
-      <p className="eyebrow mb-3">We Are</p>
-      <h2 className="heading-display mb-8 text-4xl text-bianco sm:text-5xl">
+      <p className="font-display text-3xl text-primary eyebrow mb-3">We Are</p>
+      <h2 className="font-display mb-8 text-4xl text-bianco sm:text-5xl">
         More Than Just Cars
       </h2>
       <div className="space-y-5 font-serif text-lg leading-relaxed text-bianco/85">

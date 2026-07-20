@@ -1,11 +1,17 @@
 import Link from "next/link";
-import Logo from "@/components/ui/Logo";
 import {
   FOOTER_QUICK_LINKS,
   FOOTER_SERVICES,
+  FOOTER_SOCIALS,
   OPENING_HOURS,
   CONTACT,
 } from "@/lib/data";
+import Image from "next/image";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function FooterColumn({
   title,
@@ -16,7 +22,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h3 className="mb-1 font-display text-xs font-semibold uppercase tracking-[0.3em] text-bianco">
+      <h3 className="mb-1 font-display text-md font-semibold uppercase tracking-[0.3em] text-bianco">
         {title}
       </h3>
       <span className="mb-5 block h-px w-full bg-rosso/60" />
@@ -40,7 +46,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-black">
+    <footer className="bg-background">
       {/* Tricolore divider */}
       <div className="tricolore">
         <span className="bg-verde" />
@@ -51,15 +57,23 @@ export default function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <Logo className="mb-6" />
-          <p className="mb-6 font-serif text-sm italic leading-relaxed text-muted">
+          <Image
+            src="/images/logo.png"
+            alt="V12 Automobil"
+            width={200}
+            height={200}
+          />
+          <p className="mb-6 font-serif text-bianco text-sm italic leading-relaxed">
             Specialist classic and prestige cars. Based in [Your Town],
             connecting the finest machines with the people who appreciate them
             most.
           </p>
           <ul className="space-y-2 text-sm text-muted">
             <li>
-              <a href={`tel:${CONTACT.phone.replace(/[^+\d]/g, "")}`} className="hover:text-rosso">
+              <a
+                href={`tel:${CONTACT.phone.replace(/[^+\d]/g, "")}`}
+                className="hover:text-rosso"
+              >
                 {CONTACT.phone}
               </a>
             </li>
@@ -73,15 +87,22 @@ export default function Footer() {
 
           {/* Socials */}
           <div className="mt-6 flex gap-3">
-            {["Instagram", "Facebook", "YouTube"].map((name) => (
-              <a
-                key={name}
-                href="#"
-                aria-label={name}
-                className="flex h-9 w-9 items-center justify-center border border-white/15 text-xs font-semibold text-muted transition-colors hover:border-rosso hover:text-rosso"
-              >
-                {name[0]}
-              </a>
+            {FOOTER_SOCIALS.map((social) => (
+              <Tooltip key={social.Id}>
+                <TooltipTrigger>
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center border border-white/15 text-xs font-semibold text-muted transition-colors hover:border-rosso hover:text-rosso"
+                  >
+                    {social.label[0]}
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{social.label}</p>
+                </TooltipContent>
+              </Tooltip>
             ))}
           </div>
         </div>
@@ -91,7 +112,7 @@ export default function Footer() {
 
         {/* Opening hours */}
         <div>
-          <h3 className="mb-1 font-display text-xs font-semibold uppercase tracking-[0.3em] text-bianco">
+          <h3 className="mb-1 font-display text-md  uppercase tracking-[0.3em] text-bianco">
             Opening Hours
           </h3>
           <span className="mb-5 block h-px w-full bg-rosso/60" />

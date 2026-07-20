@@ -5,7 +5,7 @@ import { NEW_STOCK } from "@/lib/data";
 export default function NewIntoStock() {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24">
-      <h2 className="heading-display mb-12 text-center text-3xl text-bianco sm:text-4xl">
+      <h2 className="font-display font-bold mb-12 text-center text-3xl text-bianco sm:text-4xl">
         New Into Stock
       </h2>
 

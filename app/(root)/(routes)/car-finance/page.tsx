@@ -30,8 +30,11 @@ export default function CarFinancePage() {
       />
       <section className="mx-auto grid max-w-6xl gap-10 px-6 pb-24 sm:grid-cols-3">
         {OPTIONS.map((option) => (
-          <article key={option.title} className="border border-white/10 bg-panel p-8">
-            <h2 className="heading-display mb-4 text-xl text-bianco">
+          <article
+            key={option.title}
+            className="border border-white/10 bg-panel p-8"
+          >
+            <h2 className="font-display mb-4 text-xl text-bianco">
               {option.title}
             </h2>
             <p className="font-serif text-base leading-relaxed text-bianco/80">

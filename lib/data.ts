@@ -1,3 +1,5 @@
+import { Sparkles } from "lucide-react";
+
 export const NAV_LEFT = [
   { label: "Home", href: "/" },
   { label: "Inventory", href: "/inventory" },
@@ -27,19 +29,19 @@ export const NEW_STOCK: StockCar[] = [
     slug: "ferrari-sf90",
     name: "Ferrari SF90",
     category: "Uncategorized",
-    image: "/images/stock-ferrari-sf90.jpg",
+    image: "/images/contact.jpg",
   },
   {
     slug: "porsche-cayenne",
     name: "Porsche Cayenne",
     category: "Uncategorized",
-    image: "/images/stock-porsche-cayenne.jpg",
+    image: "/images/contact.jpg",
   },
   {
     slug: "land-rover-defender",
     name: "Land Rover Defender",
     category: "Uncategorized",
-    image: "/images/stock-land-rover-defender.jpg",
+    image: "/images/contact.jpg",
   },
 ];
 
@@ -59,6 +61,28 @@ export const FOOTER_SERVICES = [
   { label: "Consignment Sales", href: "/sell-your-car" },
 ];
 
+export const FOOTER_SOCIALS = [
+  {
+    Id: 1,
+    label: "Instagram",
+    href: "https://www.instagram.com/v12automobil/",
+  },
+  {
+    Id: 2,
+    label: "Facebook",
+    href: "https://www.facebook.com/v12automobil/",
+  },
+  {
+    Id: 3,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/v12automobil/",
+  },
+  {
+    Id: 4,
+    label: "YouTube",
+    href: "https://www.youtube.com/@v12automobil",
+  },
+];
 export const OPENING_HOURS = [
   "Mon–Fri: 9am–6pm",
   "Saturday: 10am–4pm",

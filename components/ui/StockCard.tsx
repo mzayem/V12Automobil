@@ -18,8 +18,10 @@ export default function StockCard({ car }: { car: StockCar }) {
         />
       </Link>
 
-      <p className="mt-5 font-serif text-xs italic text-muted">{car.category}</p>
-      <h3 className="heading-display mt-1 text-xl text-bianco">{car.name}</h3>
+      <p className="mt-5 font-serif text-xs italic text-muted">
+        {car.category}
+      </p>
+      <h3 className="font-display mt-1 text-xl text-bianco">{car.name}</h3>
 
       <Link href={`/inventory/${car.slug}`} className="btn-rosso mt-4">
         Read more

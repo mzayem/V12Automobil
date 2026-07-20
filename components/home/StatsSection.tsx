@@ -5,8 +5,8 @@ export default function StatsSection() {
     <section className="mx-auto grid max-w-6xl gap-14 px-6 py-24 sm:grid-cols-3 sm:gap-8">
       {STATS.map((stat) => (
         <div key={stat.label} className="text-center">
-          <span className={`mb-8 block h-[5px] w-full ${stat.bar}`} aria-hidden />
-          <p className="heading-display text-5xl text-bianco sm:text-6xl">
+          <span className={`mb-8 block h-2.5 w-full ${stat.bar}`} aria-hidden />
+          <p className="font-display font-bold text-5xl text-bianco md:text-7xl leading-14">
             {stat.value}
           </p>
           <p className="mt-3 font-serif text-sm uppercase tracking-[0.15em] text-bianco/80">
