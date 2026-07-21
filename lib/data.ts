@@ -1,5 +1,3 @@
-import { Sparkles } from "lucide-react";
-
 export const NAV_LEFT = [
   { label: "Home", href: "/" },
   { label: "Inventory", href: "/inventory" },
@@ -8,7 +6,28 @@ export const NAV_LEFT = [
 
 export const NAV_RIGHT = [
   { label: "Sell Your Car", href: "/sell-your-car" },
-  { label: "About Us", href: "/about-us" },
+  {
+    label: "About Us",
+    href: "/about-us",
+    children: [
+      {
+        label: "The Team",
+        href: "/team",
+      },
+      {
+        label: "Why V12",
+        href: "/about-us",
+      },
+      {
+        label: "The History of V12",
+        href: "/history-of-v12",
+      },
+      {
+        label: "Previously Sold",
+        href: "/history",
+      },
+    ],
+  },
 ];
 
 export const STATS = [
@@ -19,29 +38,61 @@ export const STATS = [
 
 export type StockCar = {
   slug: string;
+  images: string[];
   name: string;
-  category: string;
-  image: string;
+  price: string;
+  colour: string;
+  Interior: string;
+  year: number;
+  Mileage: number;
+  Engine: string;
+  Transmission: string;
+  BodyStyle: string;
+  FuelType: string;
 };
 
 export const NEW_STOCK: StockCar[] = [
   {
     slug: "ferrari-sf90",
     name: "Ferrari SF90",
-    category: "Uncategorized",
-    image: "/images/contact.jpg",
+    images: ["/images/contact.jpg"],
+    price: "£10000",
+    colour: "Black",
+    Interior: "Leather",
+    year: 2022,
+    Mileage: 10000,
+    Engine: "V12 Engine",
+    Transmission: "Automatic",
+    BodyStyle: "Sedan",
+    FuelType: "Gasoline",
   },
   {
     slug: "porsche-cayenne",
     name: "Porsche Cayenne",
-    category: "Uncategorized",
-    image: "/images/contact.jpg",
+    images: ["/images/contact.jpg"],
+    price: "£10000",
+    colour: "Black",
+    Interior: "Leather",
+    year: 2022,
+    Mileage: 10000,
+    Engine: "V12 Engine",
+    Transmission: "Automatic",
+    BodyStyle: "Sedan",
+    FuelType: "Gasoline",
   },
   {
     slug: "land-rover-defender",
     name: "Land Rover Defender",
-    category: "Uncategorized",
-    image: "/images/contact.jpg",
+    images: ["/images/contact.jpg"],
+    price: "UNDER OFFER",
+    colour: "Black",
+    Interior: "Leather",
+    year: 2022,
+    Mileage: 10000,
+    Engine: "V12 Engine",
+    Transmission: "Automatic",
+    BodyStyle: "Sedan",
+    FuelType: "Gasoline",
   },
 ];
 

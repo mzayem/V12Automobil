@@ -47,13 +47,9 @@ export default function Header() {
         </NavigationMenu>
 
         {/* Logo */}
-        <Link
-          href="/"
-          aria-label="V12 Automobil — home"
-          className="shrink-0 px-8"
-        >
+        <Link href="/" aria-label="V12 Automobil — home" className="shrink-0">
           <Image
-            src="/images/logo.png"
+            src="/images/main-logo.png"
             alt="V12 Automobil"
             width={150}
             height={150}
@@ -90,7 +86,7 @@ export default function Header() {
           <Button
             variant="outline"
             size={"icon-lg"}
-            className="border-white/15 bg-transparent text-bianco hover:border-rosso hover:bg-white/10 hover:text-rosso md:hidden"
+            className="border-white/15 bg-transparent hover:border-rosso hover:bg-white/10 hover:text-rosso md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
