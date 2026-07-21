@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import PageHeading from "@/components/ui/PageHeading";
 import StockCard from "@/components/ui/StockCard";
-import { NEW_STOCK } from "@/lib/data";
+import { getStocks } from "@/actions/get-stocks";
 
 export const metadata: Metadata = {
   title: "Inventory | V12 Automobil",
 };
 
-export default function InventoryPage() {
+export default async function InventoryPage() {
+  const stock = await getStocks();
   return (
     <>
       <PageHeading
@@ -17,8 +18,8 @@ export default function InventoryPage() {
       />
       <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {NEW_STOCK.map((car) => (
-            <StockCard key={car.slug} car={car} />
+          {stock.data.map((car) => (
+            <StockCard key={car.id} car={car} />
           ))}
         </div>
       </section>
