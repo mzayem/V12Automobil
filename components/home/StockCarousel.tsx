@@ -1,5 +1,4 @@
 import StockCard from "@/components/ui/StockCard";
-import { NEW_STOCK } from "@/lib/data";
 import {
   Carousel,
   CarouselContent,
@@ -7,8 +6,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { getStocks } from "@/actions/get-stocks";
 
-export default function StockCarousel() {
+export default async function StockCarousel() {
+  const stock = await getStocks();
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24">
       <Carousel opts={{ align: "start" }}>
@@ -22,9 +23,9 @@ export default function StockCarousel() {
         </div>
 
         <CarouselContent className="-ml-6">
-          {NEW_STOCK.map((car) => (
+          {stock.data.map((car) => (
             <CarouselItem
-              key={car.slug}
+              key={car.id}
               className="pl-6 sm:basis-1/2 lg:basis-1/3"
             >
               <StockCard car={car} />
