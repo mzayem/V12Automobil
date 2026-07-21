@@ -94,6 +94,20 @@ export const NEW_STOCK: StockCar[] = [
     BodyStyle: "Sedan",
     FuelType: "Gasoline",
   },
+  {
+    slug: "land-rover-defender",
+    name: "Land Rover Defender",
+    images: ["/images/contact.jpg"],
+    price: "UNDER OFFER",
+    colour: "Black",
+    Interior: "Leather",
+    year: 2022,
+    Mileage: 10000,
+    Engine: "V12 Engine",
+    Transmission: "Automatic",
+    BodyStyle: "Sedan",
+    FuelType: "Gasoline",
+  },
 ];
 
 export const FOOTER_QUICK_LINKS = [

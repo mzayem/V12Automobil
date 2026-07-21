@@ -20,12 +20,27 @@ import {
   DrawerTitle,
   DrawerClose,
 } from "@/components/ui/drawer";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { CONTACT, FOOTER_SOCIALS } from "@/lib/data";
+import { cn } from "@/lib/utils";
+
+type MobileNavItem = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+};
+
+const MOBILE_NAV_ITEMS: MobileNavItem[] = [...NAV_LEFT, ...NAV_RIGHT];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [openMobileItem, setOpenMobileItem] = useState<string | null>(null);
+
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next);
+    if (!next) setOpenMobileItem(null);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-background">
@@ -34,7 +49,7 @@ export default function Header() {
         <NavigationMenu className="hidden flex-1 justify-start md:flex">
           <NavigationMenuList className="gap-2">
             {NAV_LEFT.map((item) => (
-              <NavigationMenuItem key={item.href} className="">
+              <NavigationMenuItem key={item.href}>
                 <NavigationMenuLink
                   render={<Link href={item.href} />}
                   className={navigationMenuTriggerStyle()}
@@ -59,30 +74,38 @@ export default function Header() {
         {/* Right Navigation */}
         <NavigationMenu className="hidden flex-1 justify-end md:flex">
           <NavigationMenuList className="gap-2">
-            <NavigationMenuItem key="/sell-your-car">
-              <NavigationMenuLink
-                render={<Link href="/sell-your-car" />}
-                className={navigationMenuTriggerStyle()}
-              >
-                Sell Your Car
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem key="/about-us">
-              <NavigationMenuTrigger>About Us</NavigationMenuTrigger>
-              <NavigationMenuContent className="rounded-lg">
-                <ul className="w-96">
-                  <ListItem href="/team" title="The Team" />
-                  <ListItem href="/about-us" title="Why V12" />
-                  <ListItem href="/history-of-v12" title="The History of V12" />
-                  <ListItem href="/history-of-v12" title="Previously Sold" />
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            {NAV_RIGHT.map((item) => (
+              <NavigationMenuItem key={item.href}>
+                {item.children ? (
+                  <>
+                    <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                    <NavigationMenuContent className="rounded-lg">
+                      <ul className="w-96">
+                        {item.children.map((child) => (
+                          <ListItem
+                            key={child.href}
+                            href={child.href}
+                            title={child.label}
+                          />
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </>
+                ) : (
+                  <NavigationMenuLink
+                    render={<Link href={item.href} />}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {item.label}
+                  </NavigationMenuLink>
+                )}
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
 
         {/* Mobile Menu Button */}
-        <Drawer open={open} onOpenChange={setOpen} swipeDirection="right">
+        <Drawer open={open} onOpenChange={handleOpenChange} swipeDirection="right">
           <Button
             variant="outline"
             size={"icon-lg"}
@@ -90,7 +113,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => handleOpenChange(!open)}
           >
             <Menu width={22} height={22} />
           </Button>
@@ -118,20 +141,86 @@ export default function Header() {
               id="mobile-nav"
               className="flex flex-1 flex-col overflow-y-auto px-2 py-2"
             >
-              {[...NAV_LEFT, ...NAV_RIGHT].map((item, i) => (
-                <DrawerClose
-                  key={item.href}
-                  render={<Link href={item.href} />}
-                  className="group flex items-center gap-4 border-b border-white/5 px-4 py-4 text-left transition-colors last:border-none hover:bg-white/5"
-                >
-                  <span className="font-display text-xs text-bianco/30 transition-colors group-hover:text-rosso">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-display text-xl tracking-wide text-bianco transition-colors group-hover:text-rosso">
-                    {item.label}
-                  </span>
-                </DrawerClose>
-              ))}
+              {MOBILE_NAV_ITEMS.map((item, i) => {
+                const hasChildren = !!item.children?.length;
+                const index = String(i + 1).padStart(2, "0");
+
+                if (!hasChildren) {
+                  return (
+                    <DrawerClose
+                      key={item.href}
+                      render={<Link href={item.href} />}
+                      className="group flex items-center gap-4 border-b border-white/5 px-4 py-4 text-left transition-colors last:border-none hover:bg-white/5"
+                    >
+                      <span className="font-display text-xs text-bianco/30 transition-colors group-hover:text-rosso">
+                        {index}
+                      </span>
+                      <span className="font-display text-xl tracking-wide text-bianco transition-colors group-hover:text-rosso">
+                        {item.label}
+                      </span>
+                    </DrawerClose>
+                  );
+                }
+
+                const isExpanded = openMobileItem === item.href;
+
+                return (
+                  <div
+                    key={item.href}
+                    className="border-b border-white/5 last:border-none"
+                  >
+                    <button
+                      type="button"
+                      aria-expanded={isExpanded}
+                      onClick={() =>
+                        setOpenMobileItem(isExpanded ? null : item.href)
+                      }
+                      className="group flex w-full items-center gap-4 px-4 py-4 text-left transition-colors hover:bg-white/5"
+                    >
+                      <span className="font-display text-xs text-bianco/30 transition-colors group-hover:text-rosso">
+                        {index}
+                      </span>
+                      <span
+                        className={cn(
+                          "flex-1 font-display text-xl tracking-wide text-bianco transition-colors group-hover:text-rosso",
+                          isExpanded && "text-rosso"
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        width={18}
+                        height={18}
+                        className={cn(
+                          "shrink-0 text-bianco/40 transition-transform duration-300",
+                          isExpanded && "rotate-180 text-rosso"
+                        )}
+                      />
+                    </button>
+                    <div
+                      className={cn(
+                        "grid transition-all duration-300 ease-out",
+                        isExpanded
+                          ? "grid-rows-[1fr] pb-3 opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      )}
+                    >
+                      <ul className="min-h-0 overflow-hidden pl-14 pr-4">
+                        {item.children?.map((child) => (
+                          <li key={child.href}>
+                            <DrawerClose
+                              render={<Link href={child.href} />}
+                              className="block py-2.5 text-sm text-bianco/70 transition-colors hover:text-rosso"
+                            >
+                              {child.label}
+                            </DrawerClose>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
             </nav>
 
             <div className="shrink-0 space-y-4 border-t border-white/10 p-5">
