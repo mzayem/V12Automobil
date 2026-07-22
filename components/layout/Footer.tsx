@@ -66,7 +66,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="lg:pr-10">
           <Image
-            src="/images/main-logo.png"
+            src="/images/v12logo.png"
             alt="V12 Automobil"
             width={180}
             height={180}

@@ -64,10 +64,10 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" aria-label="V12 Automobil — home" className="shrink-0">
           <Image
-            src="/images/main-logo.png"
+            src="/images/v12logo.png"
             alt="V12 Automobil"
-            width={150}
-            height={150}
+            width={200}
+            height={200}
           />
         </Link>
 
@@ -105,7 +105,11 @@ export default function Header() {
         </NavigationMenu>
 
         {/* Mobile Menu Button */}
-        <Drawer open={open} onOpenChange={handleOpenChange} swipeDirection="right">
+        <Drawer
+          open={open}
+          onOpenChange={handleOpenChange}
+          swipeDirection="right"
+        >
           <Button
             variant="outline"
             size={"icon-lg"}
@@ -183,7 +187,7 @@ export default function Header() {
                       <span
                         className={cn(
                           "flex-1 font-display text-xl tracking-wide text-bianco transition-colors group-hover:text-rosso",
-                          isExpanded && "text-rosso"
+                          isExpanded && "text-rosso",
                         )}
                       >
                         {item.label}
@@ -193,7 +197,7 @@ export default function Header() {
                         height={18}
                         className={cn(
                           "shrink-0 text-bianco/40 transition-transform duration-300",
-                          isExpanded && "rotate-180 text-rosso"
+                          isExpanded && "rotate-180 text-rosso",
                         )}
                       />
                     </button>
@@ -202,7 +206,7 @@ export default function Header() {
                         "grid transition-all duration-300 ease-out",
                         isExpanded
                           ? "grid-rows-[1fr] pb-3 opacity-100"
-                          : "grid-rows-[0fr] opacity-0"
+                          : "grid-rows-[0fr] opacity-0",
                       )}
                     >
                       <ul className="min-h-0 overflow-hidden pl-14 pr-4">

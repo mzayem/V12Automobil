@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: "V12 Automobil | Specialist Classic & Prestige Cars",
   description:
     "Specialist classic and prestige cars. Carefully selected, personally assessed, passionately sold.",
+  icons: {
+    icon: "/images/icon.jpeg",
+    shortcut: "/images/icon.jpeg",
+    apple: "/images/icon.jpeg",
+  },
 };
 
 export default function RootLayout({
