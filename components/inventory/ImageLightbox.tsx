@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
+  Loader2,
   Share2,
   X,
   ZoomIn,
@@ -14,6 +15,7 @@ import {
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { VehicleImage } from "@/public/type";
+import { Skeleton } from "../ui/skeleton";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
@@ -37,6 +39,7 @@ export default function ImageLightbox({
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [copied, setCopied] = useState(false);
+  const [loaded, setLoaded] = useState<Record<number, boolean>>({});
   const panRef = useRef({
     down: false,
     dragging: false,
@@ -177,8 +180,8 @@ export default function ImageLightbox({
       }}
     >
       <DialogContent
-        showClose={false}
-        className="fixed inset-0 flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col rounded-none border border-white/10 bg-black/40 p-0 backdrop-blur-sm backdrop-saturate-200"
+        showCloseButton={false}
+        className="fixed inset-0 flex h-screen w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 flex-col rounded-none border border-white/10 bg-black/40 p-0 backdrop-blur-sm backdrop-saturate-200"
       >
         {/* Top control bar */}
         <div className="relative z-10 flex shrink-0 items-center justify-between gap-4 p-4 sm:p-6">
@@ -237,7 +240,7 @@ export default function ImageLightbox({
         {/* Image stage */}
         <div
           className={cn(
-            "relative flex-1 overflow-hidden",
+            "relative flex-1 overflow-hidden mb-5",
             zoom > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in",
           )}
           onPointerDown={handlePointerDown}
@@ -246,6 +249,14 @@ export default function ImageLightbox({
           onPointerLeave={handlePointerUp}
           onDoubleClick={toggleZoom}
         >
+          {!loaded[index] && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Skeleton className="h-full w-3xl flex items-center justify-center bg-white/40 rounded-3xl">
+                <Loader2 className="size-8 animate-spin text-bianco/70" />
+              </Skeleton>
+            </div>
+          )}
+
           <div
             className="size-full transition-transform duration-150 ease-out"
             style={{
@@ -257,9 +268,13 @@ export default function ImageLightbox({
               alt={`${name} — photo ${index + 1}`}
               fill
               sizes="100vw"
-              className="object-contain select-none"
+              className={cn(
+                "object-contain select-none transition-opacity duration-200",
+                loaded[index] ? "opacity-100" : "opacity-0",
+              )}
               draggable={false}
               priority
+              onLoad={() => setLoaded((prev) => ({ ...prev, [index]: true }))}
             />
           </div>
 
