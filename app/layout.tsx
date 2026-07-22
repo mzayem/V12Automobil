@@ -3,6 +3,7 @@ import { Bebas_Neue, Geist_Mono, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import NextTopLoader from "nextjs-toploader";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
     >
       <body className="bg-night text-bianco antialiased">
         <main>
+          <NextTopLoader color="#CE2B37" showSpinner={false} />
           <TooltipProvider>{children}</TooltipProvider>
         </main>
       </body>

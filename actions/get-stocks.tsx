@@ -6,8 +6,18 @@ const TOKEN = process.env.DEALERKIT_TOKEN!;
 
 import { DealerKitResponse } from "@/public/type";
 
-export async function getStocks(): Promise<DealerKitResponse> {
-  const response = await fetch(`${BASE_URL}/stock?dealer_id=${DEALER_ID}`, {
+interface StockPageProps {
+  pageNo?: number;
+  pageSize?: number;
+}
+
+export async function getStocks({
+  pageNo = 1,
+  pageSize = 12,
+}: StockPageProps = {}): Promise<DealerKitResponse> {
+  const url = `${BASE_URL}/stock?page=${pageNo}&per_page=${pageSize}&dealer_id=${DEALER_ID}`;
+
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${TOKEN}`,

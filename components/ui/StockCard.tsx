@@ -5,7 +5,7 @@ import { DealerKitVehicle } from "@/public/type";
 export default function StockCard({ car }: { car: DealerKitVehicle }) {
   return (
     <article className="group">
-      <div className="relative aspect-4/5 overflow-hidden rounded-lg bg-white/5">
+      <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-white/5">
         <Link
           href={`/inventory/${car.id}`}
           className="relative block h-full w-full"
@@ -24,7 +24,7 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/70 to-transparent"
         />
-        <p className="pointer-events-none absolute bottom-3 left-4 font-display text-lg tracking-wide text-bianco">
+        <p className="pointer-events-none bg-black rounded-full px-4 absolute bottom-3 left-4 font-display text-lg tracking-wide text-bianco">
           £ {car.prices.cash.amount.toLocaleString()}
         </p>
       </div>
@@ -57,9 +57,13 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
 
       <Link
         href={`/inventory/${car.id}`}
-        className="group/btn mt-5 inline-flex items-center gap-2 border border-rosso px-5 py-2 font-display text-xs uppercase tracking-[0.2em] text-rosso transition-colors hover:bg-rosso hover:text-white"
+        className="
+        group/btn mt-5 rounded-md inline-flex items-center gap-2 border 
+        border-rosso px-5 py-2 font-display text-xs uppercase 
+        tracking-[0.2em] text-rosso transition-colors 
+        hover:bg-rosso hover:text-white"
       >
-        Read more
+        View Car
         <span className="transition-transform group-hover/btn:translate-x-1">
           &rarr;
         </span>
