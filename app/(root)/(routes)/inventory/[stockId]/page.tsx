@@ -123,7 +123,6 @@ export default async function InventoryDetailPage({
     },
     { label: "Engine", value: engineDisplay || undefined },
     { label: "Transmission", value: vehicle.transmission_type },
-    { label: "Drivetrain", value: vehicle.drive_train },
     { label: "Body Style", value: vehicle.body_type },
     { label: "Fuel", value: vehicle.fuel_type },
   ];
