@@ -37,8 +37,6 @@ export default function VehicleGallery({
     scrollLeft: 0,
     moved: false,
   });
-  const rafId = useRef<number | null>(null);
-  const pendingScrollLeft = useRef<number | null>(null);
 
   const sorted = [...images].sort((a, b) => a.order - b.order);
   const hasMultiple = sorted.length > 1;
@@ -72,15 +70,6 @@ export default function VehicleGallery({
     };
   };
 
-  const flushScrollLeft = () => {
-    const track = trackRef.current;
-    if (track && pendingScrollLeft.current !== null) {
-      track.scrollLeft = pendingScrollLeft.current;
-    }
-    pendingScrollLeft.current = null;
-    rafId.current = null;
-  };
-
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     const state = drag.current;
@@ -98,12 +87,11 @@ export default function VehicleGallery({
       track.setPointerCapture(e.pointerId);
     }
 
-    // Batch the scroll update through rAF so rapid pointermove events don't
-    // each force a synchronous layout — coalesces to one smooth update per frame.
-    pendingScrollLeft.current = state.scrollLeft - delta;
-    if (rafId.current === null) {
-      rafId.current = requestAnimationFrame(flushScrollLeft);
-    }
+    // Apply directly rather than deferring through requestAnimationFrame —
+    // pointermove doesn't fire often enough to need batching, and scheduling
+    // an extra rAF from inside the handler pushes the update to the *next*
+    // frame instead of the current one, adding a visible frame of drag lag.
+    track.scrollLeft = state.scrollLeft - delta;
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -113,13 +101,6 @@ export default function VehicleGallery({
     }
     drag.current.down = false;
     drag.current.active = false;
-    if (rafId.current !== null) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-    }
-    if (pendingScrollLeft.current !== null) {
-      flushScrollLeft();
-    }
   };
 
   if (sorted.length === 0) {

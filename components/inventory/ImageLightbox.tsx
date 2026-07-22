@@ -178,7 +178,7 @@ export default function ImageLightbox({
     >
       <DialogContent
         showClose={false}
-        className="flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col rounded-none border-none bg-black/95 p-0 top-0 left-0"
+        className="fixed inset-0 flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col rounded-none border border-white/10 bg-black/40 p-0 backdrop-blur-sm backdrop-saturate-200"
       >
         {/* Top control bar */}
         <div className="relative z-10 flex shrink-0 items-center justify-between gap-4 p-4 sm:p-6">
