@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import type { VehicleImage } from "@/public/type";
 import { Skeleton } from "@/components/ui/skeleton";
+import ImageLightbox from "./ImageLightbox";
 
 export default function VehicleGallery({
   images,
@@ -24,6 +25,7 @@ export default function VehicleGallery({
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [loadedMain, setLoadedMain] = useState<Record<number, boolean>>({});
   const [loadedThumbs, setLoadedThumbs] = useState<Record<number, boolean>>({});
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -35,6 +37,8 @@ export default function VehicleGallery({
     scrollLeft: 0,
     moved: false,
   });
+  const rafId = useRef<number | null>(null);
+  const pendingScrollLeft = useRef<number | null>(null);
 
   const sorted = [...images].sort((a, b) => a.order - b.order);
   const hasMultiple = sorted.length > 1;
@@ -68,6 +72,15 @@ export default function VehicleGallery({
     };
   };
 
+  const flushScrollLeft = () => {
+    const track = trackRef.current;
+    if (track && pendingScrollLeft.current !== null) {
+      track.scrollLeft = pendingScrollLeft.current;
+    }
+    pendingScrollLeft.current = null;
+    rafId.current = null;
+  };
+
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     const state = drag.current;
@@ -85,7 +98,12 @@ export default function VehicleGallery({
       track.setPointerCapture(e.pointerId);
     }
 
-    track.scrollLeft = state.scrollLeft - delta;
+    // Batch the scroll update through rAF so rapid pointermove events don't
+    // each force a synchronous layout — coalesces to one smooth update per frame.
+    pendingScrollLeft.current = state.scrollLeft - delta;
+    if (rafId.current === null) {
+      rafId.current = requestAnimationFrame(flushScrollLeft);
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -95,6 +113,13 @@ export default function VehicleGallery({
     }
     drag.current.down = false;
     drag.current.active = false;
+    if (rafId.current !== null) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+    }
+    if (pendingScrollLeft.current !== null) {
+      flushScrollLeft();
+    }
   };
 
   if (sorted.length === 0) {
@@ -103,7 +128,7 @@ export default function VehicleGallery({
 
   return (
     <div className="min-w-0">
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
+      <div className="mt-6 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-14">
         <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-white/5">
           <Carousel
             setApi={setApi}
@@ -113,7 +138,12 @@ export default function VehicleGallery({
             <CarouselContent className="ml-0 h-full">
               {sorted.map((image, i) => (
                 <CarouselItem key={image.id} className="h-full basis-full pl-0">
-                  <div className="relative h-full w-full">
+                  <button
+                    type="button"
+                    aria-label={`View photo ${i + 1} full screen`}
+                    onClick={() => setLightboxOpen(true)}
+                    className="relative block h-full w-full cursor-zoom-in"
+                  >
                     {!loadedMain[i] && (
                       <Skeleton className="absolute inset-0 rounded-none bg-white/10" />
                     )}
@@ -131,7 +161,7 @@ export default function VehicleGallery({
                         setLoadedMain((prev) => ({ ...prev, [i]: true }))
                       }
                     />
-                  </div>
+                  </button>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -213,6 +243,15 @@ export default function VehicleGallery({
           ))}
         </div>
       )}
+
+      <ImageLightbox
+        images={sorted}
+        name={name}
+        open={lightboxOpen}
+        index={current}
+        onOpenChange={setLightboxOpen}
+        onIndexChange={(i) => api?.scrollTo(i)}
+      />
     </div>
   );
 }
