@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import type { VehicleImage } from "@/public/type";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VehicleGallery({
   images,
@@ -23,19 +24,17 @@ export default function VehicleGallery({
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [loadedMain, setLoadedMain] = useState<Record<number, boolean>>({});
+  const [loadedThumbs, setLoadedThumbs] = useState<Record<number, boolean>>({});
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const drag = useRef({
+    down: false,
     active: false,
     startX: 0,
     scrollLeft: 0,
     moved: false,
-    lastX: 0,
-    lastT: 0,
-    velocity: 0,
   });
-  const rafId = useRef<number | null>(null);
-  const pendingScrollLeft = useRef<number | null>(null);
 
   const sorted = [...images].sort((a, b) => a.order - b.order);
   const hasMultiple = sorted.length > 1;
@@ -57,59 +56,36 @@ export default function VehicleGallery({
     };
   }, [api]);
 
-  const stopMomentum = () => {
-    if (rafId.current !== null) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-    }
-  };
-
-  const flushScrollLeft = () => {
-    const track = trackRef.current;
-    if (track && pendingScrollLeft.current !== null) {
-      track.scrollLeft = pendingScrollLeft.current;
-    }
-    pendingScrollLeft.current = null;
-    rafId.current = null;
-  };
-
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     if (!track) return;
-    stopMomentum();
-    const now = performance.now();
     drag.current = {
-      active: true,
+      down: true,
+      active: false,
       startX: e.clientX,
       scrollLeft: track.scrollLeft,
       moved: false,
-      lastX: e.clientX,
-      lastT: now,
-      velocity: 0,
     };
-    track.setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     const state = drag.current;
-    if (!track || !state.active) return;
+    // Ignore plain hover movement — only act while the pointer is actually
+    // held down (otherwise this would run using stale startX/scrollLeft left
+    // over from the last drag and silently re-scroll the strip).
+    if (!track || !state.down) return;
 
     const delta = e.clientX - state.startX;
-    if (Math.abs(delta) > 3) state.moved = true;
 
-    pendingScrollLeft.current = state.scrollLeft - delta;
-    if (rafId.current === null) {
-      rafId.current = requestAnimationFrame(flushScrollLeft);
+    if (!state.active) {
+      if (Math.abs(delta) <= 3) return;
+      state.active = true;
+      state.moved = true;
+      track.setPointerCapture(e.pointerId);
     }
 
-    const now = performance.now();
-    const dt = now - state.lastT;
-    if (dt > 0) {
-      state.velocity = (e.clientX - state.lastX) / dt;
-    }
-    state.lastX = e.clientX;
-    state.lastT = now;
+    track.scrollLeft = state.scrollLeft - delta;
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -117,29 +93,9 @@ export default function VehicleGallery({
     if (track?.hasPointerCapture(e.pointerId)) {
       track.releasePointerCapture(e.pointerId);
     }
+    drag.current.down = false;
     drag.current.active = false;
-    stopMomentum();
-
-    let velocity = drag.current.velocity;
-    const decay = 0.94;
-
-    const glide = () => {
-      const el = trackRef.current;
-      if (!el || Math.abs(velocity) < 0.02) {
-        rafId.current = null;
-        return;
-      }
-      el.scrollLeft -= velocity * 16;
-      velocity *= decay;
-      rafId.current = requestAnimationFrame(glide);
-    };
-
-    if (Math.abs(velocity) > 0.05) {
-      rafId.current = requestAnimationFrame(glide);
-    }
   };
-
-  useEffect(() => stopMomentum, []);
 
   if (sorted.length === 0) {
     return <div className="aspect-4/3 rounded-lg bg-white/5" aria-hidden />;
@@ -158,13 +114,22 @@ export default function VehicleGallery({
               {sorted.map((image, i) => (
                 <CarouselItem key={image.id} className="h-full basis-full pl-0">
                   <div className="relative h-full w-full">
+                    {!loadedMain[i] && (
+                      <Skeleton className="absolute inset-0 rounded-none bg-white/10" />
+                    )}
                     <Image
                       src={image.url}
                       alt={`${name} — photo ${i + 1}`}
                       fill
                       sizes="(min-width: 1024px) 60vw, 100vw"
-                      className="object-cover"
+                      className={cn(
+                        "object-cover transition-opacity duration-300",
+                        loadedMain[i] ? "opacity-100" : "opacity-0",
+                      )}
                       priority={i === 0}
+                      onLoad={() =>
+                        setLoadedMain((prev) => ({ ...prev, [i]: true }))
+                      }
                     />
                   </div>
                 </CarouselItem>
@@ -227,13 +192,22 @@ export default function VehicleGallery({
                   : "border-transparent opacity-70 hover:opacity-100",
               )}
             >
+              {!loadedThumbs[i] && (
+                <Skeleton className="absolute inset-0 rounded-none bg-white/10" />
+              )}
               <Image
                 src={image.url}
                 alt=""
                 fill
-                sizes="96px"
-                className="object-cover"
+                sizes="100px"
+                className={cn(
+                  "object-cover",
+                  loadedThumbs[i] ? "opacity-100" : "opacity-0",
+                )}
                 draggable={false}
+                onLoad={() =>
+                  setLoadedThumbs((prev) => ({ ...prev, [i]: true }))
+                }
               />
             </button>
           ))}

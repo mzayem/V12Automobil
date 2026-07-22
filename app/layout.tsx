@@ -37,7 +37,7 @@ export default function RootLayout({
         geist.variable,
       )}
     >
-      <body className="bg-night text-bianco antialiased">
+      <body className="overflow-x-hidden bg-night text-bianco antialiased">
         <main>
           <NextTopLoader color="#CE2B37" showSpinner={false} />
           <TooltipProvider>{children}</TooltipProvider>

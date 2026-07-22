@@ -8,6 +8,7 @@ import VehicleGallery from "@/components/inventory/VehicleGallery";
 import ShareButton from "@/components/inventory/ShareButton";
 import { Button } from "@/components/ui/button";
 import type { VehicleImage } from "@/public/type";
+import StockCarousel from "@/components/home/StockCarousel";
 
 function pickImage(images: VehicleImage[], seed: string) {
   if (images.length === 0) return null;
@@ -324,6 +325,9 @@ export default async function InventoryDetailPage({
           good faith and should be verified before purchase. Please contact us
           to confirm specification, history and availability.
         </p>
+      </section>
+      <section className="mt-16 border-t border-white/10 pt-8">
+        <StockCarousel />
       </section>
     </div>
   );

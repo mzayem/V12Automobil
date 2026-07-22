@@ -1,8 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DealerKitVehicle } from "@/public/type";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export default function StockCard({ car }: { car: DealerKitVehicle }) {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <article className="group">
       <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-white/5">
@@ -10,12 +17,19 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
           href={`/inventory/${car.id}`}
           className="relative block h-full w-full"
         >
+          {!loaded && (
+            <Skeleton className="absolute inset-0 rounded-none bg-white/10" />
+          )}
           <Image
             src={car.media.images[0].url}
             alt={car.vehicle.manufacturer + " " + car.vehicle.model}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={cn(
+              "object-cover transition-all duration-500 group-hover:scale-105",
+              loaded ? "opacity-100" : "opacity-0",
+            )}
+            onLoad={() => setLoaded(true)}
           />
         </Link>
 
@@ -58,9 +72,9 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
       <Link
         href={`/inventory/${car.id}`}
         className="
-        group/btn mt-5 rounded-md inline-flex items-center gap-2 border 
-        border-rosso px-5 py-2 font-display text-xs uppercase 
-        tracking-[0.2em] text-rosso transition-colors 
+        group/btn mt-5 rounded-md inline-flex items-center gap-2 border
+        border-rosso px-5 py-2 font-display text-xs uppercase
+        tracking-[0.2em] text-rosso transition-colors
         hover:bg-rosso hover:text-white"
       >
         View Car
