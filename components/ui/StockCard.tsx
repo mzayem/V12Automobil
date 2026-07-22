@@ -51,7 +51,7 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
         </div>
         <div className="flex justify-between gap-2">
           <dt className="text-muted/70">Transmission:</dt>
-          <dd className="font-bold">{car.vehicle.transmission}</dd>
+          <dd className="font-bold">{car.vehicle.transmission_type}</dd>
         </div>
       </dl>
 

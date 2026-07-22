@@ -4,27 +4,23 @@ const BASE_URL = process.env.DEALERKIT_BASE_URL!;
 const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
-import { StockList } from "@/public/type";
+import { Stock } from "@/public/type";
 
-interface StocksProps {
-  pageNo?: number;
-  pageSize?: number;
-}
+export async function getStock(id: string): Promise<Stock> {
+  if (!id) {
+    throw new Error("Stock ID is required");
+  }
 
-export async function getStocks({
-  pageNo = 1,
-  pageSize = 12,
-}: StocksProps = {}): Promise<StockList> {
-  const url = `${BASE_URL}/stock?page=${pageNo}&per_page=${pageSize}&dealer_id=${DEALER_ID}`;
-
+  const url = `${BASE_URL}/stock/${id}?dealer_id=${DEALER_ID}`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },
 
+    // Next.js cache
     next: {
-      revalidate: 0,
+      revalidate: 300,
     },
   });
 
@@ -34,5 +30,5 @@ export async function getStocks({
     );
   }
 
-  return response.json() as Promise<StockList>;
+  return response.json() as Promise<Stock>;
 }

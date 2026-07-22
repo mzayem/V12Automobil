@@ -37,8 +37,6 @@ export default async function InventoryPage({
 
   const stock = await getStocks({ pageNo, pageSize: perPage });
 
-  // The page size may have changed since this page number was last valid —
-  // send the user to the last real page instead of showing an empty grid.
   if (pageNo > stock.meta.last_page && stock.meta.last_page > 0) {
     redirect(
       stock.meta.last_page > 1
