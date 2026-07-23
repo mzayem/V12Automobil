@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/sonner";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -43,10 +44,11 @@ export default function RootLayout({
       )}
     >
       <body className="overflow-x-hidden bg-night text-bianco antialiased">
+        <NextTopLoader color="#CE2B37" showSpinner={false} />
         <main>
-          <NextTopLoader color="#CE2B37" showSpinner={false} />
           <TooltipProvider>{children}</TooltipProvider>
         </main>
+        <Toaster />
       </body>
     </html>
   );
