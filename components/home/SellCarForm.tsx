@@ -1,53 +1,98 @@
 "use client";
 
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+
+const currentYear = new Date().getFullYear();
+
+// Keep every field as a string, matching what native <input> elements
+// actually hold — z.coerce.number() gives a field an "unknown" input type
+// vs a "number" output type, which useForm's single generic can't represent
+// and breaks handleSubmit's inference. Numbers are parsed out after validation.
+const formSchema = z.object({
+  name: z.string().min(1, "Full name is required"),
+  email: z.email("Enter a valid email"),
+  telephone: z.string().min(1, "Telephone number is required"),
+  make: z.string().min(1, "Make is required"),
+  model: z.string().min(1, "Model is required"),
+  year: z
+    .string()
+    .regex(/^\d{4}$/, "Enter a valid 4-digit year")
+    .refine(
+      (v) => Number(v) >= 1900 && Number(v) <= currentYear + 1,
+      "Enter a valid year",
+    ),
+  mileage: z
+    .string()
+    .min(1, "Mileage is required")
+    .regex(/^\d+$/, "Enter a valid mileage"),
+});
+
+type SellCarFormValues = z.infer<typeof formSchema>;
+
+const STEP_ONE_FIELDS = ["name", "email", "telephone"] as const;
 
 const inputClass =
-  "w-full bg-bianco px-4 py-2.5 text-sm text-night placeholder:text-night/40 focus:outline-none focus:ring-2 focus:ring-rosso";
+  "border-transparent bg-bianco text-night placeholder:text-night/40 focus-visible:ring-rosso/50";
 
-function Field({
-  label,
-  ...props
-}: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="block">
-      <span className="mb-2 block font-serif text-sm text-bianco/80">
-        {label}
-      </span>
-      <input className={inputClass} {...props} />
-    </label>
-  );
+async function submitEnquiry(values: SellCarFormValues) {
+  // Wire this up to your API route / CRM endpoint — logging for now.
+  const payload = {
+    ...values,
+    year: Number(values.year),
+    mileage: Number(values.mileage),
+  };
+  console.log("Sell enquiry:", payload);
+  await new Promise((resolve) => setTimeout(resolve, 1200));
 }
 
 export default function SellCarForm() {
   const [step, setStep] = useState<1 | 2>(1);
   const [sent, setSent] = useState(false);
 
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    telephone: "",
-    make: "",
-    model: "",
-    year: "",
-    mileage: "",
+  const {
+    register,
+    trigger,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SellCarFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      telephone: "",
+      make: "",
+      model: "",
+      year: "",
+      mileage: "",
+    },
   });
 
-  const update =
-    (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const submit = () => {
-    // Wire this up to your API route / CRM endpoint
-    console.log("Sell enquiry:", form);
-    setSent(true);
+  const goToStepTwo = async () => {
+    const valid = await trigger(STEP_ONE_FIELDS);
+    if (valid) setStep(2);
   };
+
+  const onSubmit = handleSubmit((values) => {
+    toast.promise(submitEnquiry(values), {
+      loading: "Sending your details...",
+      success: () => {
+        setSent(true);
+        return "Thanks — we've received your details and will be in touch shortly.";
+      },
+      error: "Something went wrong. Please try again.",
+    });
+  });
 
   return (
     <section className="relative overflow-hidden py-24">
-      {/* Background image — drop your showroom shot in /public/images/sell-bg.jpg */}
       <Image
         src="/images/contact.jpg"
         alt=""
@@ -73,7 +118,7 @@ export default function SellCarForm() {
             shortly.
           </p>
         ) : (
-          <>
+          <form onSubmit={onSubmit} noValidate>
             {/* Stepper */}
             <div className="mb-10 flex items-center">
               {[1, 2].map((n, i) => (
@@ -98,33 +143,55 @@ export default function SellCarForm() {
 
             {step === 1 ? (
               <div className="grid gap-6 sm:grid-cols-3">
-                <Field
-                  label="Full Name"
-                  placeholder="Full Name"
-                  autoComplete="name"
-                  value={form.fullName}
-                  onChange={update("fullName")}
-                />
-                <Field
-                  label="Email"
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  value={form.email}
-                  onChange={update("email")}
-                />
-                <Field
-                  label="Telephone"
-                  type="tel"
-                  placeholder="Number"
-                  autoComplete="tel"
-                  value={form.telephone}
-                  onChange={update("telephone")}
-                />
+                <Field data-invalid={!!errors.name}>
+                  <FieldLabel htmlFor="name" className="text-bianco/80">
+                    Full Name
+                  </FieldLabel>
+                  <Input
+                    id="name"
+                    placeholder="Full Name"
+                    autoComplete="name"
+                    aria-invalid={!!errors.name}
+                    className={inputClass}
+                    {...register("name")}
+                  />
+                  <FieldError errors={[errors.name]} />
+                </Field>
+                <Field data-invalid={!!errors.email}>
+                  <FieldLabel htmlFor="email" className="text-bianco/80">
+                    Email
+                  </FieldLabel>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    autoComplete="email"
+                    aria-invalid={!!errors.email}
+                    className={inputClass}
+                    {...register("email")}
+                  />
+                  <FieldError errors={[errors.email]} />
+                </Field>
+                <Field data-invalid={!!errors.telephone}>
+                  <FieldLabel htmlFor="telephone" className="text-bianco/80">
+                    Telephone
+                  </FieldLabel>
+                  <Input
+                    id="telephone"
+                    type="tel"
+                    placeholder="Number"
+                    autoComplete="tel"
+                    aria-invalid={!!errors.telephone}
+                    className={inputClass}
+                    {...register("telephone")}
+                  />
+                  <FieldError errors={[errors.telephone]} />
+                </Field>
                 <div className="sm:col-span-3">
                   <Button
+                    type="button"
                     variant="secondary"
-                    onClick={() => setStep(2)}
+                    onClick={goToStepTwo}
                     className="w-full sm:w-auto sm:min-w-55"
                   >
                     Next
@@ -133,47 +200,76 @@ export default function SellCarForm() {
               </div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2">
-                <Field
-                  label="Make"
-                  placeholder="e.g. Ferrari"
-                  value={form.make}
-                  onChange={update("make")}
-                />
-                <Field
-                  label="Model"
-                  placeholder="e.g. SF90"
-                  value={form.model}
-                  onChange={update("model")}
-                />
-                <Field
-                  label="Year"
-                  placeholder="e.g. 2021"
-                  inputMode="numeric"
-                  value={form.year}
-                  onChange={update("year")}
-                />
-                <Field
-                  label="Mileage"
-                  placeholder="e.g. 12,000"
-                  inputMode="numeric"
-                  value={form.mileage}
-                  onChange={update("mileage")}
-                />
+                <Field data-invalid={!!errors.make}>
+                  <FieldLabel htmlFor="make" className="text-bianco/80">
+                    Make
+                  </FieldLabel>
+                  <Input
+                    id="make"
+                    placeholder="e.g. Ferrari"
+                    aria-invalid={!!errors.make}
+                    className={inputClass}
+                    {...register("make")}
+                  />
+                  <FieldError errors={[errors.make]} />
+                </Field>
+                <Field data-invalid={!!errors.model}>
+                  <FieldLabel htmlFor="model" className="text-bianco/80">
+                    Model
+                  </FieldLabel>
+                  <Input
+                    id="model"
+                    placeholder="e.g. SF90"
+                    aria-invalid={!!errors.model}
+                    className={inputClass}
+                    {...register("model")}
+                  />
+                  <FieldError errors={[errors.model]} />
+                </Field>
+                <Field data-invalid={!!errors.year}>
+                  <FieldLabel htmlFor="year" className="text-bianco/80">
+                    Year
+                  </FieldLabel>
+                  <Input
+                    id="year"
+                    placeholder="e.g. 2021"
+                    inputMode="numeric"
+                    aria-invalid={!!errors.year}
+                    className={inputClass}
+                    {...register("year")}
+                  />
+                  <FieldError errors={[errors.year]} />
+                </Field>
+                <Field data-invalid={!!errors.mileage}>
+                  <FieldLabel htmlFor="mileage" className="text-bianco/80">
+                    Mileage
+                  </FieldLabel>
+                  <Input
+                    id="mileage"
+                    placeholder="e.g. 12,000"
+                    inputMode="numeric"
+                    aria-invalid={!!errors.mileage}
+                    className={inputClass}
+                    {...register("mileage")}
+                  />
+                  <FieldError errors={[errors.mileage]} />
+                </Field>
                 <div className="flex gap-4 sm:col-span-2">
                   <Button
+                    type="button"
                     variant="outline"
                     onClick={() => setStep(1)}
                     className="bg-transparent"
                   >
                     Back
                   </Button>
-                  <Button onClick={submit} className="flex-1">
+                  <Button type="submit" className="flex-1">
                     Send Details
                   </Button>
                 </div>
               </div>
             )}
-          </>
+          </form>
         )}
       </div>
     </section>
