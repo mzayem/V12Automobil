@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   description:
     "Specialist classic and prestige cars. Carefully selected, personally assessed, passionately sold.",
   icons: {
-    icon: "/images/icon.jpeg",
-    shortcut: "/images/icon.jpeg",
-    apple: "/images/icon.jpeg",
+    icon: "/images/favicon.ico",
+    shortcut: "/images/favicon.ico",
+    apple: "/images/favicon.ico",
   },
 };
 
