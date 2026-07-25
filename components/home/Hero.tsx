@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="relative flex min-h-155 items-center overflow-hidden lg:min-h-170">
       {/* Background image — drop your hero shot in /public/images/hero.jpg */}
       <Image
-        src="/images/hero.jpeg"
+        src="/images/heroMain.webp"
         alt="A line-up of supercars on a cobbled London mews street at dusk"
         fill
         priority
