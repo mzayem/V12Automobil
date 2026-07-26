@@ -7,12 +7,12 @@ export const NAV_LEFT = [
 export const NAV_RIGHT = [
   { label: "Sell Your Car", href: "/sell-your-car" },
   {
-    label: "About Us",
-    href: "/about-us",
+    label: "Company",
+    href: "/#",
     children: [
       {
-        label: "The Team",
-        href: "/team",
+        label: "About Us",
+        href: "/about-us",
       },
       {
         label: "Why V12",
