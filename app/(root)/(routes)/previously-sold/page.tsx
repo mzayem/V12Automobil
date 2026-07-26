@@ -10,13 +10,6 @@ export const metadata: Metadata = {
 export default function PreviouslySoldPage() {
   return (
     <>
-      <nav className="pt-10 text-center font-serif text-xs text-muted">
-        <Link href="/inventory" className="transition-colors hover:text-rosso">
-          Cars For Sale
-        </Link>
-        <span className="mx-2 opacity-50">/</span>
-        <span className="text-bianco">Previously Sold</span>
-      </nav>
       <PageHeading
         eyebrow="Previously Sold"
         title="Cars That Found Their Next Home"
