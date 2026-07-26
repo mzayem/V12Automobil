@@ -24,7 +24,7 @@ export const NAV_RIGHT = [
       },
       {
         label: "Previously Sold",
-        href: "/history",
+        href: "/previously-sold",
       },
     ],
   },
@@ -34,80 +34,6 @@ export const STATS = [
   { value: "1,000+", label: "Cars Sourced & Sold", bar: "bg-verde" },
   { value: "8", label: "Years Established", bar: "bg-bianco" },
   { value: "99%", label: "Customer Satisfaction", bar: "bg-rosso" },
-];
-
-export type StockCar = {
-  slug: string;
-  images: string[];
-  name: string;
-  price: string;
-  colour: string;
-  Interior: string;
-  year: number;
-  Mileage: number;
-  Engine: string;
-  Transmission: string;
-  BodyStyle: string;
-  FuelType: string;
-};
-
-export const NEW_STOCK: StockCar[] = [
-  {
-    slug: "ferrari-sf90",
-    name: "Ferrari SF90",
-    images: ["/images/contact.jpg"],
-    price: "£10000",
-    colour: "Black",
-    Interior: "Leather",
-    year: 2022,
-    Mileage: 10000,
-    Engine: "V12 Engine",
-    Transmission: "Automatic",
-    BodyStyle: "Sedan",
-    FuelType: "Gasoline",
-  },
-  {
-    slug: "porsche-cayenne",
-    name: "Porsche Cayenne",
-    images: ["/images/contact.jpg"],
-    price: "£10000",
-    colour: "Black",
-    Interior: "Leather",
-    year: 2022,
-    Mileage: 10000,
-    Engine: "V12 Engine",
-    Transmission: "Automatic",
-    BodyStyle: "Sedan",
-    FuelType: "Gasoline",
-  },
-  {
-    slug: "land-rover-defender",
-    name: "Land Rover Defender",
-    images: ["/images/contact.jpg"],
-    price: "UNDER OFFER",
-    colour: "Black",
-    Interior: "Leather",
-    year: 2022,
-    Mileage: 10000,
-    Engine: "V12 Engine",
-    Transmission: "Automatic",
-    BodyStyle: "Sedan",
-    FuelType: "Gasoline",
-  },
-  {
-    slug: "land-rover-defender",
-    name: "Land Rover Defender",
-    images: ["/images/contact.jpg"],
-    price: "UNDER OFFER",
-    colour: "Black",
-    Interior: "Leather",
-    year: 2022,
-    Mileage: 10000,
-    Engine: "V12 Engine",
-    Transmission: "Automatic",
-    BodyStyle: "Sedan",
-    FuelType: "Gasoline",
-  },
 ];
 
 export const FOOTER_QUICK_LINKS = [
@@ -159,3 +85,30 @@ export const CONTACT = {
   email: "hello@v12automobil.com",
   address: "[Your Address, Town, County, Postcode]",
 };
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  email: string;
+  phone?: string;
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    name: "Josh",
+    role: "CEO / Founder",
+    email: "info@v12automobil.com",
+  },
+  {
+    name: "Georgi",
+    role: "Senior Operations Specialist",
+    email: "hello@v12automobil.com",
+    phone: "+44 (0) 1234 567 890",
+  },
+  {
+    name: "Max",
+    role: "Sales",
+    email: "hello@v12automobil.com",
+    phone: "+44 (0) 1234 567 890",
+  },
+];
