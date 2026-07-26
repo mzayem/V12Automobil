@@ -9,7 +9,7 @@ export default function Hero() {
         alt="A line-up of supercars on a cobbled London mews street at dusk"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-bottom"
       />
       {/* Left-to-right scrim so the headline stays readable */}
       <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/30 to-transparent" />

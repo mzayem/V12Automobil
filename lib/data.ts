@@ -16,7 +16,7 @@ export const NAV_RIGHT = [
       },
       {
         label: "Why V12",
-        href: "/about-us",
+        href: "/why-v12-automobil",
       },
       {
         label: "The History of V12",
