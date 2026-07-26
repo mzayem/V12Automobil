@@ -73,9 +73,8 @@ export default function Footer() {
             className="mb-4 -ml-2"
           />
           <p className="mb-6 max-w-xs font-serif text-sm italic leading-relaxed text-bianco/80">
-            Specialist classic and prestige cars. Based in [Your Town],
-            connecting the finest machines with the people who appreciate them
-            most.
+            Specialist classic and prestige cars. Based in London, connecting
+            the finest machines with the people who appreciate them most.
           </p>
           <ul className="space-y-3 text-sm text-muted">
             <li>

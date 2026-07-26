@@ -91,15 +91,18 @@ export const OPENING_HOURS = [
 
 export const CONTACT = {
   phone: "+44 330 133 5108",
-  email: "info@v12automobil.com",
+  email: "info@v12automobil.co.uk",
   address: "84 Eccleston Square, Pimlico, London SW1V 1PX",
 };
 
 export type TeamMember = {
   name: string;
   role: string;
-  email: string;
   phone?: string;
+  email?: string;
+  facebook?: string;
+  instagram?: string;
+  linkedin?: string;
 };
 
 export const TEAM: TeamMember[] = [

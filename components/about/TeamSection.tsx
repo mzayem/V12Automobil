@@ -1,5 +1,59 @@
 import { Mail, Phone } from "lucide-react";
-import { TEAM } from "@/lib/data";
+import { TEAM, type TeamMember } from "@/lib/data";
+
+type ContactAction = {
+  key: string;
+  label: string;
+  href: string;
+  content: React.ReactNode;
+};
+
+function getContactActions(member: TeamMember): ContactAction[] {
+  const actions: ContactAction[] = [];
+
+  if (member.phone) {
+    actions.push({
+      key: "phone",
+      label: member.phone,
+      href: `tel:${member.phone.replace(/[^+\d]/g, "")}`,
+      content: <Phone className="size-4" />,
+    });
+  }
+  if (member.email) {
+    actions.push({
+      key: "email",
+      label: member.email,
+      href: `mailto:${member.email}`,
+      content: <Mail className="size-4" />,
+    });
+  }
+  if (member.facebook) {
+    actions.push({
+      key: "facebook",
+      label: "Facebook",
+      href: member.facebook,
+      content: "F",
+    });
+  }
+  if (member.instagram) {
+    actions.push({
+      key: "instagram",
+      label: "Instagram",
+      href: member.instagram,
+      content: "I",
+    });
+  }
+  if (member.linkedin) {
+    actions.push({
+      key: "linkedin",
+      label: "LinkedIn",
+      href: member.linkedin,
+      content: "L",
+    });
+  }
+
+  return actions;
+}
 
 export default function TeamSection() {
   return (
@@ -32,30 +86,32 @@ export default function TeamSection() {
               </span>
             </div>
 
-            <div className="p-6">
-              <h3 className="font-display text-xl text-bianco">
-                {member.name}
-              </h3>
-              <p className="mt-1 mb-4 font-serif text-xs font-bold uppercase tracking-[0.15em] text-rosso">
-                {member.role}
-              </p>
-              <div className="space-y-2 font-serif text-sm text-muted">
-                <a
-                  href={`mailto:${member.email}`}
-                  className="flex items-center gap-2.5 transition-colors hover:text-rosso"
-                >
-                  <Mail className="size-4 shrink-0 text-rosso" />
-                  {member.email}
-                </a>
-                {member.phone && (
-                  <a
-                    href={`tel:${member.phone.replace(/[^+\d]/g, "")}`}
-                    className="flex items-center gap-2.5 transition-colors hover:text-rosso"
-                  >
-                    <Phone className="size-4 shrink-0 text-rosso" />
-                    {member.phone}
-                  </a>
-                )}
+            <div className="flex items-center justify-between gap-3 p-6">
+              <div>
+                <h3 className="font-display text-xl text-bianco">
+                  {member.name}
+                </h3>
+                <p className="mt-1 font-serif text-xs font-bold uppercase tracking-[0.15em] text-rosso">
+                  {member.role}
+                </p>
+              </div>
+
+              <div className="flex shrink-0 gap-1.5 overflow-x-auto [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-track]:bg-transparent">
+                {getContactActions(member).map((action) => {
+                  const isExternal = action.href.startsWith("http");
+                  return (
+                    <a
+                      key={action.key}
+                      href={action.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      aria-label={action.label}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-night text-bianco transition-colors hover:bg-rosso"
+                    >
+                      {action.content}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
