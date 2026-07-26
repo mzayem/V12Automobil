@@ -1,6 +1,19 @@
 export const NAV_LEFT = [
   { label: "Home", href: "/" },
-  { label: "Inventory", href: "/inventory" },
+  {
+    label: "Inventory",
+    href: "/inventory",
+    children: [
+      {
+        label: "Current Inventory",
+        href: "/inventory",
+      },
+      {
+        label: "Previously Sold",
+        href: "/previously-sold",
+      },
+    ],
+  },
   { label: "Car Finance", href: "/car-finance" },
 ];
 
@@ -21,10 +34,6 @@ export const NAV_RIGHT = [
       {
         label: "The History of V12",
         href: "/history-of-v12",
-      },
-      {
-        label: "Previously Sold",
-        href: "/previously-sold",
       },
     ],
   },
@@ -81,9 +90,9 @@ export const OPENING_HOURS = [
 ];
 
 export const CONTACT = {
-  phone: "+44 (0) 1234 567 890",
-  email: "hello@v12automobil.com",
-  address: "[Your Address, Town, County, Postcode]",
+  phone: "+44 330 133 5108",
+  email: "info@v12automobil.com",
+  address: "84 Eccleston Square, Pimlico, London SW1V 1PX",
 };
 
 export type TeamMember = {

@@ -46,16 +46,33 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-white/5 bg-background">
       <div className="mx-auto flex h-22 max-w-7xl items-center justify-between px-6">
         {/* Left Navigation */}
-        <NavigationMenu className="hidden flex-1 justify-start md:flex">
+        <NavigationMenu className="hidden flex-1 justify-end md:flex">
           <NavigationMenuList className="gap-2">
             {NAV_LEFT.map((item) => (
               <NavigationMenuItem key={item.href}>
-                <NavigationMenuLink
-                  render={<Link href={item.href} />}
-                  className={navigationMenuTriggerStyle()}
-                >
-                  {item.label}
-                </NavigationMenuLink>
+                {item.children ? (
+                  <>
+                    <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                    <NavigationMenuContent className="rounded-lg">
+                      <ul className="w-96">
+                        {item.children.map((child) => (
+                          <ListItem
+                            key={child.href}
+                            href={child.href}
+                            title={child.label}
+                          />
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </>
+                ) : (
+                  <NavigationMenuLink
+                    render={<Link href={item.href} />}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {item.label}
+                  </NavigationMenuLink>
+                )}
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
