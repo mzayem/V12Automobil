@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 
-const currentYear = new Date().getFullYear();
-
 // Keep every field as a string, matching what native <input> elements
 // actually hold — z.coerce.number() gives a field an "unknown" input type
 // vs a "number" output type, which useForm's single generic can't represent
@@ -22,13 +20,6 @@ const formSchema = z.object({
   telephone: z.string().min(1, "Telephone number is required"),
   make: z.string().min(1, "Make is required"),
   model: z.string().min(1, "Model is required"),
-  year: z
-    .string()
-    .regex(/^\d{4}$/, "Enter a valid 4-digit year")
-    .refine(
-      (v) => Number(v) >= 1900 && Number(v) <= currentYear + 1,
-      "Enter a valid year",
-    ),
   mileage: z
     .string()
     .min(1, "Mileage is required")
@@ -37,8 +28,6 @@ const formSchema = z.object({
 
 type SellCarFormValues = z.infer<typeof formSchema>;
 
-const STEP_ONE_FIELDS = ["name", "email", "telephone"] as const;
-
 const inputClass =
   "border-transparent bg-bianco text-night placeholder:text-night/40 focus-visible:ring-rosso/50";
 
@@ -46,7 +35,6 @@ async function submitEnquiry(values: SellCarFormValues) {
   // Wire this up to your API route / CRM endpoint — logging for now.
   const payload = {
     ...values,
-    year: Number(values.year),
     mileage: Number(values.mileage),
   };
   console.log("Sell enquiry:", payload);
@@ -54,12 +42,10 @@ async function submitEnquiry(values: SellCarFormValues) {
 }
 
 export default function SellCarForm() {
-  const [step, setStep] = useState<1 | 2>(1);
   const [sent, setSent] = useState(false);
 
   const {
     register,
-    trigger,
     handleSubmit,
     formState: { errors },
   } = useForm<SellCarFormValues>({
@@ -70,15 +56,9 @@ export default function SellCarForm() {
       telephone: "",
       make: "",
       model: "",
-      year: "",
       mileage: "",
     },
   });
-
-  const goToStepTwo = async () => {
-    const valid = await trigger(STEP_ONE_FIELDS);
-    if (valid) setStep(2);
-  };
 
   const onSubmit = handleSubmit((values) => {
     toast.promise(submitEnquiry(values), {
@@ -118,157 +98,98 @@ export default function SellCarForm() {
             shortly.
           </p>
         ) : (
-          <form onSubmit={onSubmit} noValidate>
-            {/* Stepper */}
-            <div className="mb-10 flex items-center">
-              {[1, 2].map((n, i) => (
-                <div
-                  key={n}
-                  className={`flex items-center ${i === 1 ? "" : "flex-1"}`}
-                >
-                  <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-display text-sm ${
-                      step >= n ? "bg-rosso text-white" : "bg-bianco text-night"
-                    }`}
-                    aria-current={step === n ? "step" : undefined}
-                  >
-                    {n}
-                  </span>
-                  {i === 0 && (
-                    <span className="mx-3 h-px flex-1 bg-bianco/60" />
-                  )}
-                </div>
-              ))}
+          <form onSubmit={onSubmit} noValidate className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-3">
+              <Field data-invalid={!!errors.name}>
+                <FieldLabel htmlFor="name" className="text-bianco/80">
+                  Full Name
+                </FieldLabel>
+                <Input
+                  id="name"
+                  placeholder="Full Name"
+                  autoComplete="name"
+                  aria-invalid={!!errors.name}
+                  className={inputClass}
+                  {...register("name")}
+                />
+                <FieldError errors={[errors.name]} />
+              </Field>
+              <Field data-invalid={!!errors.email}>
+                <FieldLabel htmlFor="email" className="text-bianco/80">
+                  Email
+                </FieldLabel>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  autoComplete="email"
+                  aria-invalid={!!errors.email}
+                  className={inputClass}
+                  {...register("email")}
+                />
+                <FieldError errors={[errors.email]} />
+              </Field>
+              <Field data-invalid={!!errors.telephone}>
+                <FieldLabel htmlFor="telephone" className="text-bianco/80">
+                  Telephone
+                </FieldLabel>
+                <Input
+                  id="telephone"
+                  type="tel"
+                  placeholder="Number"
+                  autoComplete="tel"
+                  aria-invalid={!!errors.telephone}
+                  className={inputClass}
+                  {...register("telephone")}
+                />
+                <FieldError errors={[errors.telephone]} />
+              </Field>
+
+              <Field data-invalid={!!errors.make}>
+                <FieldLabel htmlFor="make" className="text-bianco/80">
+                  Make
+                </FieldLabel>
+                <Input
+                  id="make"
+                  placeholder="e.g. Ferrari"
+                  aria-invalid={!!errors.make}
+                  className={inputClass}
+                  {...register("make")}
+                />
+                <FieldError errors={[errors.make]} />
+              </Field>
+              <Field data-invalid={!!errors.model}>
+                <FieldLabel htmlFor="model" className="text-bianco/80">
+                  Model
+                </FieldLabel>
+                <Input
+                  id="model"
+                  placeholder="e.g. SF90"
+                  aria-invalid={!!errors.model}
+                  className={inputClass}
+                  {...register("model")}
+                />
+                <FieldError errors={[errors.model]} />
+              </Field>
+              <Field data-invalid={!!errors.mileage}>
+                <FieldLabel htmlFor="mileage" className="text-bianco/80">
+                  Mileage
+                </FieldLabel>
+                <Input
+                  id="mileage"
+                  placeholder="e.g. 12,000"
+                  inputMode="numeric"
+                  aria-invalid={!!errors.mileage}
+                  className={inputClass}
+                  {...register("mileage")}
+                />
+                <FieldError errors={[errors.mileage]} />
+              </Field>
             </div>
 
-            {step === 1 ? (
-              <div className="grid gap-6 sm:grid-cols-3">
-                <Field data-invalid={!!errors.name}>
-                  <FieldLabel htmlFor="name" className="text-bianco/80">
-                    Full Name
-                  </FieldLabel>
-                  <Input
-                    id="name"
-                    placeholder="Full Name"
-                    autoComplete="name"
-                    aria-invalid={!!errors.name}
-                    className={inputClass}
-                    {...register("name")}
-                  />
-                  <FieldError errors={[errors.name]} />
-                </Field>
-                <Field data-invalid={!!errors.email}>
-                  <FieldLabel htmlFor="email" className="text-bianco/80">
-                    Email
-                  </FieldLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    autoComplete="email"
-                    aria-invalid={!!errors.email}
-                    className={inputClass}
-                    {...register("email")}
-                  />
-                  <FieldError errors={[errors.email]} />
-                </Field>
-                <Field data-invalid={!!errors.telephone}>
-                  <FieldLabel htmlFor="telephone" className="text-bianco/80">
-                    Telephone
-                  </FieldLabel>
-                  <Input
-                    id="telephone"
-                    type="tel"
-                    placeholder="Number"
-                    autoComplete="tel"
-                    aria-invalid={!!errors.telephone}
-                    className={inputClass}
-                    {...register("telephone")}
-                  />
-                  <FieldError errors={[errors.telephone]} />
-                </Field>
-                <div className="sm:col-span-3">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={goToStepTwo}
-                    className="w-full sm:w-auto sm:min-w-55"
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="grid gap-6 sm:grid-cols-2">
-                <Field data-invalid={!!errors.make}>
-                  <FieldLabel htmlFor="make" className="text-bianco/80">
-                    Make
-                  </FieldLabel>
-                  <Input
-                    id="make"
-                    placeholder="e.g. Ferrari"
-                    aria-invalid={!!errors.make}
-                    className={inputClass}
-                    {...register("make")}
-                  />
-                  <FieldError errors={[errors.make]} />
-                </Field>
-                <Field data-invalid={!!errors.model}>
-                  <FieldLabel htmlFor="model" className="text-bianco/80">
-                    Model
-                  </FieldLabel>
-                  <Input
-                    id="model"
-                    placeholder="e.g. SF90"
-                    aria-invalid={!!errors.model}
-                    className={inputClass}
-                    {...register("model")}
-                  />
-                  <FieldError errors={[errors.model]} />
-                </Field>
-                <Field data-invalid={!!errors.year}>
-                  <FieldLabel htmlFor="year" className="text-bianco/80">
-                    Year
-                  </FieldLabel>
-                  <Input
-                    id="year"
-                    placeholder="e.g. 2021"
-                    inputMode="numeric"
-                    aria-invalid={!!errors.year}
-                    className={inputClass}
-                    {...register("year")}
-                  />
-                  <FieldError errors={[errors.year]} />
-                </Field>
-                <Field data-invalid={!!errors.mileage}>
-                  <FieldLabel htmlFor="mileage" className="text-bianco/80">
-                    Mileage
-                  </FieldLabel>
-                  <Input
-                    id="mileage"
-                    placeholder="e.g. 12,000"
-                    inputMode="numeric"
-                    aria-invalid={!!errors.mileage}
-                    className={inputClass}
-                    {...register("mileage")}
-                  />
-                  <FieldError errors={[errors.mileage]} />
-                </Field>
-                <div className="flex gap-4 sm:col-span-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep(1)}
-                    className="bg-transparent"
-                  >
-                    Back
-                  </Button>
-                  <Button type="submit" className="flex-1">
-                    Send Details
-                  </Button>
-                </div>
-              </div>
-            )}
+            <Button type="submit" className="w-full sm:w-auto sm:min-w-55">
+              Send Details
+            </Button>
           </form>
         )}
       </div>
