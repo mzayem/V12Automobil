@@ -12,6 +12,7 @@ export default function AboutUsPage() {
   return (
     <>
       <PageHeading
+        bgSrc="/images/large_porsche_911_turbo.jpg"
         eyebrow="We Are"
         title="More Than Just Cars"
         intro="V12 Automobil is a specialist dealer with an uncompromising passion for the machines that defined an era. Every car we present has been driven, assessed, and approved by people who genuinely care."
