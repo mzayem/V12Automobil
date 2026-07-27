@@ -120,3 +120,88 @@ export interface ListMeta {
   to: number;
   total: number;
 }
+
+export type LeadType = "buying";
+
+export type LeadPersonTitle =
+  | "Mr"
+  | "Mrs"
+  | "Ms"
+  | "Mx"
+  | "Master"
+  | "Miss"
+  | "Dr"
+  | "Prof"
+  | "Dame"
+  | "Sir"
+  | "Lord"
+  | "Lady"
+  | "Rev";
+
+export interface LeadMarketingConsent {
+  sms: boolean;
+  email: boolean;
+  telephone: boolean;
+}
+
+export interface LeadPerson {
+  title?: LeadPersonTitle;
+  first_name: string;
+  last_name: string;
+  company_name?: string;
+  /** Required without `telephone`. */
+  email?: string;
+  /** Required without `email`. */
+  telephone?: string;
+  marketing_consent: LeadMarketingConsent;
+  updated_at: string;
+}
+
+export type VehicleServiceHistory =
+  | "none"
+  | "partial"
+  | "full"
+  | "full_main_dealer";
+
+export type VehicleCondition = "poor" | "average" | "good" | "excellent";
+
+export interface LeadVehicle {
+  vrm: string;
+  mileage: number;
+  service_history?: VehicleServiceHistory;
+  condition?: VehicleCondition;
+  appraised_value?: number;
+  outstanding_finance_amount?: number;
+  outstanding_finance_provider?: string;
+}
+
+export interface LeadMessage {
+  plain?: string;
+  html?: string;
+}
+
+export interface LeadTracking {
+  landing_page_url?: string;
+  referrer?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_medium?: string;
+  utm_source?: string;
+  utm_term?: string;
+}
+
+export interface CreateLeadPayload {
+  type: LeadType;
+  person: LeadPerson;
+  vehicle: LeadVehicle;
+  note?: string;
+  message?: LeadMessage;
+  tracking?: LeadTracking;
+}
+
+export interface LeadResponse {
+  data: {
+    id: string;
+    type: LeadType;
+  };
+}
