@@ -14,7 +14,32 @@ export const NAV_LEFT = [
       },
     ],
   },
-  { label: "Car Finance", href: "/car-finance" },
+  {
+    label: "Car Finance",
+    href: "/car-finance",
+    children: [
+      {
+        label: "Hire Purchase (HP)",
+        href: "/car-finance/hire-purchase",
+      },
+      {
+        label: "Personal Contract Purchase (PCP)",
+        href: "/car-finance/pcp-finance",
+      },
+      {
+        label: "Lease Purchase (LP)",
+        href: "/car-finance/lease-purchase",
+      },
+      {
+        label: "Car Refinance",
+        href: "/car-finance/car-refinance",
+      },
+      {
+        label: "Releasing Equity",
+        href: "/car-finance/releasing-equity",
+      },
+    ],
+  },
 ];
 
 export const NAV_RIGHT = [
@@ -94,6 +119,45 @@ export const CONTACT = {
   email: "info@v12automobil.co.uk",
   address: "84 Eccleston Square, Pimlico, London SW1V 1PX",
 };
+
+export type FinanceOption = {
+  label: string;
+  href: string;
+  description: string;
+};
+
+export const FINANCE_OPTIONS: FinanceOption[] = [
+  {
+    label: "Hire Purchase (HP)",
+    href: "/car-finance/hire-purchase",
+    description:
+      "Hire Purchase offers fixed monthly payments and full ownership of the car once the agreement ends.",
+  },
+  {
+    label: "Personal Contract Purchase (PCP)",
+    href: "/car-finance/pcp-finance",
+    description:
+      "PCP allows you to use the car until the contract ends before deciding whether to keep it or change it.",
+  },
+  {
+    label: "Lease Purchase (LP)",
+    href: "/car-finance/lease-purchase",
+    description:
+      "Lease Purchase gives you the benefit of lower monthly payments compared to a standard Hire Purchase deal.",
+  },
+  {
+    label: "Car Refinance",
+    href: "/car-finance/car-refinance",
+    description:
+      "Refinancing your car is the hassle-free way of restructuring your funding, much like switching your mortgage.",
+  },
+  {
+    label: "Releasing Equity",
+    href: "/car-finance/releasing-equity",
+    description:
+      "If you own a high-value vehicle and are looking for additional funds, you may be able to release some equity from your car.",
+  },
+];
 
 export type TeamMember = {
   name: string;
