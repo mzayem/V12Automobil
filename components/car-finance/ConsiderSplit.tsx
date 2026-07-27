@@ -15,7 +15,7 @@ export default function ConsiderSplit({
   return (
     <section className="mx-auto max-w-6xl border-t border-white/10 px-6 py-20">
       <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="relative flex aspect-4/3 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-linear-to-br from-white/10 to-transparent text-xs uppercase tracking-[0.1em] text-bianco/40">
+        <div className="relative flex aspect-4/3 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-linear-to-br from-white/10 to-transparent text-xs uppercase tracking-widest text-bianco/40">
           {imageSrc ? (
             <Image
               src={imageSrc}

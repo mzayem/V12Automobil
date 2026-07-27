@@ -37,7 +37,7 @@ export default function FinanceHero({
         <span className="text-bianco">{current}</span>
       </nav>
 
-      <div className="relative mb-10 flex aspect-21/9 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-linear-to-br from-white/10 to-transparent text-xs uppercase tracking-[0.1em] text-bianco/40">
+      <div className="relative mb-10 flex aspect-21/9 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-linear-to-br from-white/10 to-transparent text-xs uppercase tracking-widest text-bianco/40">
         {imageSrc ? (
           <Image
             src={imageSrc}
