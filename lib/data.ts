@@ -71,19 +71,19 @@ export const STATS = [
 ];
 
 export const FOOTER_QUICK_LINKS = [
-  { label: "Cars For Sale", href: "/inventory" },
   { label: "About Us", href: "/about-us" },
+  { label: "Why V12", href: "/why-v12-automobil" },
   { label: "Sell Your Car", href: "/sell-your-car" },
-  { label: "Free Valuation", href: "/sell-your-car" },
-  { label: "Stock Alerts", href: "/inventory" },
+  { label: "Cars For Sale", href: "/inventory" },
+  { label: "Previously Sold", href: "/previously-sold" },
 ];
 
 export const FOOTER_SERVICES = [
-  { label: "Purchase Finance", href: "/car-finance" },
-  { label: "Nationwide Delivery", href: "/about-us" },
-  { label: "Part Exchange", href: "/sell-your-car" },
-  { label: "Classic Insurance", href: "/car-finance" },
-  { label: "Consignment Sales", href: "/sell-your-car" },
+  { label: "Hire Purchase", href: "/car-finance/hire-purchase" },
+  { label: "Personal Contract Purchase", href: "/car-finance/pcp-finance" },
+  { label: "Lease Purchase", href: "/car-finance/lease-purchase" },
+  { label: "Car Refinance", href: "/car-finance/car-refinance" },
+  { label: "Releasing Equity", href: "/car-finance/releasing-equity" },
 ];
 
 export const FOOTER_SOCIALS = [

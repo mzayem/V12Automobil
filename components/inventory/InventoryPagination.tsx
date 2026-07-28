@@ -9,20 +9,28 @@ import {
 } from "@/components/ui/pagination";
 import { getPaginationRange } from "@/lib/pagination";
 
-function buildHref(page: number) {
-  return page <= 1 ? "/inventory" : `/inventory?page=${page}`;
-}
-
 export default function InventoryPagination({
   currentPage,
   lastPage,
+  searchParams = {},
 }: {
   currentPage: number;
   lastPage: number;
+  searchParams?: Record<string, string | undefined>;
 }) {
   if (lastPage <= 1) return null;
 
   const range = getPaginationRange(currentPage, lastPage);
+
+  const buildHref = (page: number) => {
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(searchParams)) {
+      if (key !== "page" && value) params.set(key, value);
+    }
+    if (page > 1) params.set("page", String(page));
+    const qs = params.toString();
+    return qs ? `/inventory?${qs}` : "/inventory";
+  };
 
   return (
     <Pagination className="pb-24">
