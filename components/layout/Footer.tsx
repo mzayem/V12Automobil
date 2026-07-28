@@ -162,13 +162,13 @@ export default function Footer() {
             </a>
           </p>
           <nav className="flex gap-6">
-            <Link href="#" className="hover:text-rosso">
+            <Link href="/terms-conditions" className="hover:text-rosso">
               Terms &amp; Conditions
             </Link>
-            <Link href="#" className="hover:text-rosso">
+            <Link href="/privacy-policy" className="hover:text-rosso">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-rosso">
+            <Link href="/cookie-policy" className="hover:text-rosso">
               Cookie Policy
             </Link>
           </nav>
