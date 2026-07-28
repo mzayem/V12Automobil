@@ -117,12 +117,11 @@ export default async function InventoryPage({
         priceBounds={priceBounds}
         selectedMinPrice={minPrice}
         selectedMaxPrice={maxPrice}
+        resultCount={total}
       >
-        <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
-          {pageItems.map((car) => (
-            <StockCard key={car.id} car={car} />
-          ))}
-        </div>
+        {pageItems.map((car) => (
+          <StockCard key={car.id} car={car} />
+        ))}
       </InventoryFilters>
       <InventoryPagination
         currentPage={pageNo}
