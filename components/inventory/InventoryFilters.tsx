@@ -25,8 +25,16 @@ function formatPrice(value: number) {
 export default function InventoryFilters({
   makes,
   bodyStyles,
+  models,
+  colours,
+  transmissions,
+  fuelTypes,
   selectedMakes,
   selectedBodyStyles,
+  selectedModels,
+  selectedColours,
+  selectedTransmissions,
+  selectedFuelTypes,
   query,
   priceBounds,
   selectedMinPrice,
@@ -36,8 +44,16 @@ export default function InventoryFilters({
 }: {
   makes: FacetOption[];
   bodyStyles: FacetOption[];
+  models: FacetOption[];
+  colours: FacetOption[];
+  transmissions: FacetOption[];
+  fuelTypes: FacetOption[];
   selectedMakes: string[];
   selectedBodyStyles: string[];
+  selectedModels: string[];
+  selectedColours: string[];
+  selectedTransmissions: string[];
+  selectedFuelTypes: string[];
   query: string;
   priceBounds: PriceBounds;
   selectedMinPrice?: number;
@@ -103,7 +119,7 @@ export default function InventoryFilters({
   }, [search]);
 
   const toggleValue = (
-    key: "make" | "body",
+    key: "make" | "body" | "model" | "colour" | "transmission" | "fuel",
     value: string,
     active: string[],
   ) => {
@@ -129,6 +145,10 @@ export default function InventoryFilters({
   const hasActiveFilters =
     selectedMakes.length > 0 ||
     selectedBodyStyles.length > 0 ||
+    selectedModels.length > 0 ||
+    selectedColours.length > 0 ||
+    selectedTransmissions.length > 0 ||
+    selectedFuelTypes.length > 0 ||
     query.trim().length > 0 ||
     selectedMinPrice != null ||
     selectedMaxPrice != null;
@@ -190,6 +210,36 @@ export default function InventoryFilters({
         options={bodyStyles}
         selected={selectedBodyStyles}
         onToggle={(value) => toggleValue("body", value, selectedBodyStyles)}
+      />
+
+      <FilterGroup
+        title="Search by Model"
+        options={models}
+        selected={selectedModels}
+        onToggle={(value) => toggleValue("model", value, selectedModels)}
+      />
+
+      <FilterGroup
+        title="Search by Colour"
+        options={colours}
+        selected={selectedColours}
+        onToggle={(value) => toggleValue("colour", value, selectedColours)}
+      />
+
+      <FilterGroup
+        title="Search by Transmission"
+        options={transmissions}
+        selected={selectedTransmissions}
+        onToggle={(value) =>
+          toggleValue("transmission", value, selectedTransmissions)
+        }
+      />
+
+      <FilterGroup
+        title="Search by Fuel Type"
+        options={fuelTypes}
+        selected={selectedFuelTypes}
+        onToggle={(value) => toggleValue("fuel", value, selectedFuelTypes)}
       />
     </div>
   );
@@ -286,6 +336,8 @@ export default function InventoryFilters({
   );
 }
 
+const FILTER_GROUP_VISIBLE_COUNT = 10;
+
 function FilterGroup({
   title,
   options,
@@ -297,7 +349,14 @@ function FilterGroup({
   selected: string[];
   onToggle: (value: string) => void;
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!options.length) return null;
+
+  const hasMore = options.length > FILTER_GROUP_VISIBLE_COUNT;
+  const visibleOptions = expanded
+    ? options
+    : options.slice(0, FILTER_GROUP_VISIBLE_COUNT);
 
   return (
     <div>
@@ -305,7 +364,7 @@ function FilterGroup({
         {title}
       </h3>
       <ul className="space-y-2.5">
-        {options.map((option) => (
+        {visibleOptions.map((option) => (
           <li key={option.value}>
             <label className="flex cursor-pointer items-center gap-2.5 font-serif text-sm text-muted transition-colors hover:text-bianco">
               <input
@@ -320,6 +379,16 @@ function FilterGroup({
           </li>
         ))}
       </ul>
+
+      {hasMore && (
+        <button
+          type="button"
+          onClick={() => setExpanded((prev) => !prev)}
+          className="mt-3 font-serif text-xs text-rosso transition-colors hover:text-bianco"
+        >
+          {expanded ? "View less" : "View more"}
+        </button>
+      )}
     </div>
   );
 }

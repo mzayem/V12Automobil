@@ -31,15 +31,28 @@ export function parseListParam(value?: string): string[] {
 
 export type FacetOption = { value: string; count: number };
 
+// Groups values case-insensitively (DealerKit data mixes casing for the same
+// value, e.g. "Automatic" vs "automatic") while keeping the first-seen
+// casing as the display label, so brand names like "BMW" aren't mangled.
 function facetCounts(values: string[]): FacetOption[] {
-  const counts = new Map<string, number>();
+  const counts = new Map<string, { label: string; count: number }>();
   for (const value of values) {
     if (!value) continue;
-    counts.set(value, (counts.get(value) ?? 0) + 1);
+    const key = value.toLowerCase();
+    const existing = counts.get(key);
+    if (existing) existing.count += 1;
+    else counts.set(key, { label: value, count: 1 });
   }
-  return Array.from(counts.entries())
-    .map(([value, count]) => ({ value, count }))
+  return Array.from(counts.values())
+    .map(({ label, count }) => ({ value: label, count }))
     .sort((a, b) => a.value.localeCompare(b.value));
+}
+
+/** Case-insensitive membership check for facet filter selections. */
+function matchesFacet(selected: string[], value: string): boolean {
+  if (!selected.length) return true;
+  const target = value.toLowerCase();
+  return selected.some((s) => s.toLowerCase() === target);
 }
 
 export function getMakeFacets(stock: DealerKitVehicle[]): FacetOption[] {
@@ -48,6 +61,24 @@ export function getMakeFacets(stock: DealerKitVehicle[]): FacetOption[] {
 
 export function getBodyStyleFacets(stock: DealerKitVehicle[]): FacetOption[] {
   return facetCounts(stock.map((car) => car.vehicle.body_type));
+}
+
+export function getModelFacets(stock: DealerKitVehicle[]): FacetOption[] {
+  return facetCounts(stock.map((car) => car.vehicle.model));
+}
+
+export function getColourFacets(stock: DealerKitVehicle[]): FacetOption[] {
+  return facetCounts(stock.map((car) => car.vehicle.colour));
+}
+
+export function getTransmissionFacets(
+  stock: DealerKitVehicle[],
+): FacetOption[] {
+  return facetCounts(stock.map((car) => car.vehicle.transmission_type));
+}
+
+export function getFuelTypeFacets(stock: DealerKitVehicle[]): FacetOption[] {
+  return facetCounts(stock.map((car) => car.vehicle.fuel_type));
 }
 
 export type PriceBounds = { min: number; max: number };
@@ -67,12 +98,20 @@ export function filterStock(
   {
     makes,
     bodyStyles,
+    models,
+    colours,
+    transmissions,
+    fuelTypes,
     query,
     minPrice,
     maxPrice,
   }: {
     makes: string[];
     bodyStyles: string[];
+    models: string[];
+    colours: string[];
+    transmissions: string[];
+    fuelTypes: string[];
     query: string;
     minPrice?: number;
     maxPrice?: number;
@@ -81,12 +120,14 @@ export function filterStock(
   const q = query.trim().toLowerCase();
 
   return stock.filter((car) => {
-    if (makes.length && !makes.includes(car.vehicle.manufacturer)) {
+    if (!matchesFacet(makes, car.vehicle.manufacturer)) return false;
+    if (!matchesFacet(bodyStyles, car.vehicle.body_type)) return false;
+    if (!matchesFacet(models, car.vehicle.model)) return false;
+    if (!matchesFacet(colours, car.vehicle.colour)) return false;
+    if (!matchesFacet(transmissions, car.vehicle.transmission_type)) {
       return false;
     }
-    if (bodyStyles.length && !bodyStyles.includes(car.vehicle.body_type)) {
-      return false;
-    }
+    if (!matchesFacet(fuelTypes, car.vehicle.fuel_type)) return false;
     const price = car.prices.cash.amount;
     if (minPrice != null && price < minPrice) return false;
     if (maxPrice != null && price > maxPrice) return false;

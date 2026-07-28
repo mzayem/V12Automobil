@@ -18,6 +18,10 @@ import {
   sortStock,
   getMakeFacets,
   getBodyStyleFacets,
+  getModelFacets,
+  getColourFacets,
+  getTransmissionFacets,
+  getFuelTypeFacets,
   getPriceBounds,
   parseListParam,
 } from "@/lib/inventory-filters";
@@ -34,6 +38,10 @@ export default async function InventoryPage({
     sort?: string;
     make?: string;
     body?: string;
+    model?: string;
+    colour?: string;
+    transmission?: string;
+    fuel?: string;
     q?: string;
     minPrice?: string;
     maxPrice?: string;
@@ -55,10 +63,18 @@ export default async function InventoryPage({
 
   const makes = getMakeFacets(allStock);
   const bodyStyles = getBodyStyleFacets(allStock);
+  const models = getModelFacets(allStock);
+  const colours = getColourFacets(allStock);
+  const transmissions = getTransmissionFacets(allStock);
+  const fuelTypes = getFuelTypeFacets(allStock);
   const priceBounds = getPriceBounds(allStock);
 
   const selectedMakes = parseListParam(params.make);
   const selectedBodyStyles = parseListParam(params.body);
+  const selectedModels = parseListParam(params.model);
+  const selectedColours = parseListParam(params.colour);
+  const selectedTransmissions = parseListParam(params.transmission);
+  const selectedFuelTypes = parseListParam(params.fuel);
   const query = params.q?.trim() ?? "";
   const minPrice = params.minPrice ? Number(params.minPrice) : undefined;
   const maxPrice = params.maxPrice ? Number(params.maxPrice) : undefined;
@@ -66,6 +82,10 @@ export default async function InventoryPage({
   const filtered = filterStock(allStock, {
     makes: selectedMakes,
     bodyStyles: selectedBodyStyles,
+    models: selectedModels,
+    colours: selectedColours,
+    transmissions: selectedTransmissions,
+    fuelTypes: selectedFuelTypes,
     query,
     minPrice,
     maxPrice,
@@ -111,8 +131,16 @@ export default async function InventoryPage({
       <InventoryFilters
         makes={makes}
         bodyStyles={bodyStyles}
+        models={models}
+        colours={colours}
+        transmissions={transmissions}
+        fuelTypes={fuelTypes}
         selectedMakes={selectedMakes}
         selectedBodyStyles={selectedBodyStyles}
+        selectedModels={selectedModels}
+        selectedColours={selectedColours}
+        selectedTransmissions={selectedTransmissions}
+        selectedFuelTypes={selectedFuelTypes}
         query={query}
         priceBounds={priceBounds}
         selectedMinPrice={minPrice}
