@@ -165,6 +165,7 @@ export type TeamMember = {
   imageSrc?: string;
   phone?: string;
   email?: string;
+  description?: string;
   facebook?: string;
   instagram?: string;
   linkedin?: string;
@@ -178,6 +179,8 @@ export const TEAM: TeamMember[] = [
     email: "Josh@v12automobil.co.uk",
     instagram: "https://www.instagram.com/V12automobil",
     linkedin: "https://www.linkedin.com/in/josh-apps-8b1109228/",
+    description:
+      "Josh has worked in the football industry representing clients for 10+ years and has been heavily involved in sourcing high end vehicles for his sporting clientele; with over 2000 sales transacted. The creation of V12 Automobil was a natural progression that has enabled new and existing clients to access highly sought after vehicles at competitive prices. Josh works tirelessly to ensure that we always offer the very highest levels of service to our customers, which has enabled V12 Automobil to become both a trusted and highly recommended luxury dealership.",
   },
   {
     name: "Georgi Vasilev",
@@ -185,6 +188,8 @@ export const TEAM: TeamMember[] = [
     imageSrc: "/images/team/Georgi_03d6c7d684.jpg",
     email: "georgi@v12automobil.co.uk",
     phone: "+44 (0) 7883 748 278",
+    description:
+      "Georgi has worked in the motor trade for more than five years most recently with Chelsea Truck Company. He has been heavily involved in operations and after sales customer service including sales of high-end parts, ensuring the customers experience is as seamless as possible. His extensive experience with high-end vehicles and customers alike compliment V12's continued commitment to delivering the highest standards at all times.",
   },
   {
     name: "Jack Borsos",
@@ -194,5 +199,7 @@ export const TEAM: TeamMember[] = [
     phone: "+44 (0) 7534 638 884",
     instagram: "https://www.instagram.com/Jack_v12automobil",
     linkedin: "https://www.linkedin.com/in/jack-borsos/",
+    description:
+      "Jack brings a wealth of sales knowledge to V12 Automobil with years of experience in the automotive industry. He has previously managed large sales teams for prominent main dealer locations in and around London and was previously responsible for a significant Training Department in automotive sales before joining our team. Jack specialises in sourcing luxury cars and supercars for clients, managing sales from our extensive stock including Sale or Return enquiries.",
   },
 ];
