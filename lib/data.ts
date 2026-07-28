@@ -45,15 +45,15 @@ export const NAV_LEFT = [
 export const NAV_RIGHT = [
   { label: "Sell Your Car", href: "/sell-your-car" },
   {
-    label: "Company",
+    label: "About Us",
     href: "/#",
     children: [
       {
-        label: "About Us",
-        href: "/about-us",
+        label: "Meet the Team",
+        href: "/meet-the-team",
       },
       {
-        label: "Why V12",
+        label: "Why V12?",
         href: "/why-v12-automobil",
       },
       {
@@ -71,7 +71,7 @@ export const STATS = [
 ];
 
 export const FOOTER_QUICK_LINKS = [
-  { label: "About Us", href: "/about-us" },
+  { label: "Meet the Team", href: "/meet-the-team" },
   { label: "Why V12", href: "/why-v12-automobil" },
   { label: "Sell Your Car", href: "/sell-your-car" },
   { label: "Cars For Sale", href: "/inventory" },

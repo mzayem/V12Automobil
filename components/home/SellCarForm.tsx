@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { FadeIn } from "@/components/motion/Reveal";
 
 // Keep every field as a string, matching what native <input> elements
 // actually hold — z.coerce.number() gives a field an "unknown" input type
@@ -83,14 +84,16 @@ export default function SellCarForm() {
       <div className="absolute inset-0 bg-linear-to-b from-night via-transparent to-night" />
 
       <div className="relative mx-auto max-w-3xl px-6">
-        <h2 className="font-display mb-4 text-center text-3xl text-bianco sm:text-4xl">
-          Find Your Car&apos;s Next Home
-        </h2>
-        <p className="mb-12 text-center font-serif text-base leading-relaxed text-bianco/85">
-          If you think it might be time for your car to move on, tell us about
-          it. We connect serious cars with serious buyers — always with
-          discretion and care.
-        </p>
+        <FadeIn>
+          <h2 className="font-display mb-4 text-center text-3xl text-bianco sm:text-4xl">
+            TIME TO CHANGE YOUR CAR ?
+          </h2>
+          <p className="mb-12 text-center font-serif text-base leading-relaxed text-bianco/85">
+            Enquire with us to get a bespoke valuation for your vehicle , Enter
+            your vehicle registration number below to see what your current
+            vehicle is worth and add the follow
+          </p>
+        </FadeIn>
 
         {sent ? (
           <p className="text-center font-serif text-lg italic text-verde">
@@ -98,99 +101,101 @@ export default function SellCarForm() {
             shortly.
           </p>
         ) : (
-          <form onSubmit={onSubmit} noValidate className="space-y-6">
-            <div className="grid gap-6 sm:grid-cols-3">
-              <Field data-invalid={!!errors.name}>
-                <FieldLabel htmlFor="name" className="text-bianco/80">
-                  Full Name
-                </FieldLabel>
-                <Input
-                  id="name"
-                  placeholder="Full Name"
-                  autoComplete="name"
-                  aria-invalid={!!errors.name}
-                  className={inputClass}
-                  {...register("name")}
-                />
-                <FieldError errors={[errors.name]} />
-              </Field>
-              <Field data-invalid={!!errors.email}>
-                <FieldLabel htmlFor="email" className="text-bianco/80">
-                  Email
-                </FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  aria-invalid={!!errors.email}
-                  className={inputClass}
-                  {...register("email")}
-                />
-                <FieldError errors={[errors.email]} />
-              </Field>
-              <Field data-invalid={!!errors.telephone}>
-                <FieldLabel htmlFor="telephone" className="text-bianco/80">
-                  Telephone
-                </FieldLabel>
-                <Input
-                  id="telephone"
-                  type="tel"
-                  placeholder="Number"
-                  autoComplete="tel"
-                  aria-invalid={!!errors.telephone}
-                  className={inputClass}
-                  {...register("telephone")}
-                />
-                <FieldError errors={[errors.telephone]} />
-              </Field>
+          <FadeIn delay={0.15}>
+            <form onSubmit={onSubmit} noValidate className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-3">
+                <Field data-invalid={!!errors.name}>
+                  <FieldLabel htmlFor="name" className="text-bianco/80">
+                    Full Name
+                  </FieldLabel>
+                  <Input
+                    id="name"
+                    placeholder="Full Name"
+                    autoComplete="name"
+                    aria-invalid={!!errors.name}
+                    className={inputClass}
+                    {...register("name")}
+                  />
+                  <FieldError errors={[errors.name]} />
+                </Field>
+                <Field data-invalid={!!errors.email}>
+                  <FieldLabel htmlFor="email" className="text-bianco/80">
+                    Email
+                  </FieldLabel>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    autoComplete="email"
+                    aria-invalid={!!errors.email}
+                    className={inputClass}
+                    {...register("email")}
+                  />
+                  <FieldError errors={[errors.email]} />
+                </Field>
+                <Field data-invalid={!!errors.telephone}>
+                  <FieldLabel htmlFor="telephone" className="text-bianco/80">
+                    Telephone
+                  </FieldLabel>
+                  <Input
+                    id="telephone"
+                    type="tel"
+                    placeholder="Number"
+                    autoComplete="tel"
+                    aria-invalid={!!errors.telephone}
+                    className={inputClass}
+                    {...register("telephone")}
+                  />
+                  <FieldError errors={[errors.telephone]} />
+                </Field>
 
-              <Field data-invalid={!!errors.make}>
-                <FieldLabel htmlFor="make" className="text-bianco/80">
-                  Make
-                </FieldLabel>
-                <Input
-                  id="make"
-                  placeholder="e.g. Ferrari"
-                  aria-invalid={!!errors.make}
-                  className={inputClass}
-                  {...register("make")}
-                />
-                <FieldError errors={[errors.make]} />
-              </Field>
-              <Field data-invalid={!!errors.model}>
-                <FieldLabel htmlFor="model" className="text-bianco/80">
-                  Model
-                </FieldLabel>
-                <Input
-                  id="model"
-                  placeholder="e.g. SF90"
-                  aria-invalid={!!errors.model}
-                  className={inputClass}
-                  {...register("model")}
-                />
-                <FieldError errors={[errors.model]} />
-              </Field>
-              <Field data-invalid={!!errors.mileage}>
-                <FieldLabel htmlFor="mileage" className="text-bianco/80">
-                  Mileage
-                </FieldLabel>
-                <Input
-                  id="mileage"
-                  placeholder="e.g. 12,000"
-                  inputMode="numeric"
-                  aria-invalid={!!errors.mileage}
-                  className={inputClass}
-                  {...register("mileage")}
-                />
-                <FieldError errors={[errors.mileage]} />
-              </Field>
-            </div>
+                <Field data-invalid={!!errors.make}>
+                  <FieldLabel htmlFor="make" className="text-bianco/80">
+                    Make
+                  </FieldLabel>
+                  <Input
+                    id="make"
+                    placeholder="e.g. Ferrari"
+                    aria-invalid={!!errors.make}
+                    className={inputClass}
+                    {...register("make")}
+                  />
+                  <FieldError errors={[errors.make]} />
+                </Field>
+                <Field data-invalid={!!errors.model}>
+                  <FieldLabel htmlFor="model" className="text-bianco/80">
+                    Model
+                  </FieldLabel>
+                  <Input
+                    id="model"
+                    placeholder="e.g. SF90"
+                    aria-invalid={!!errors.model}
+                    className={inputClass}
+                    {...register("model")}
+                  />
+                  <FieldError errors={[errors.model]} />
+                </Field>
+                <Field data-invalid={!!errors.mileage}>
+                  <FieldLabel htmlFor="mileage" className="text-bianco/80">
+                    Mileage
+                  </FieldLabel>
+                  <Input
+                    id="mileage"
+                    placeholder="e.g. 12,000"
+                    inputMode="numeric"
+                    aria-invalid={!!errors.mileage}
+                    className={inputClass}
+                    {...register("mileage")}
+                  />
+                  <FieldError errors={[errors.mileage]} />
+                </Field>
+              </div>
 
-            <Button type="submit" className="w-full sm:w-auto sm:min-w-55">
-              Send Details
-            </Button>
-          </form>
+              <Button type="submit" className="w-full sm:w-auto sm:min-w-55">
+                Send Details
+              </Button>
+            </form>
+          </FadeIn>
         )}
       </div>
     </section>

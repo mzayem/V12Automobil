@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { FadeIn } from "@/components/motion/Reveal";
 
 export default function PageHeading({
   eyebrow,
@@ -33,7 +34,11 @@ export default function PageHeading({
         </>
       )}
 
-      <div className="relative mx-auto max-w-4xl px-6 pb-16 pt-24 text-center">
+      <FadeIn
+        y={16}
+        amount={0}
+        className="relative mx-auto max-w-4xl px-6 pb-16 pt-24 text-center"
+      >
         <p className="eyebrow mb-3">{eyebrow}</p>
         <h1 className="font-display text-4xl text-bianco sm:text-5xl">
           {title}
@@ -43,7 +48,7 @@ export default function PageHeading({
             {intro}
           </p>
         )}
-      </div>
+      </FadeIn>
     </div>
   );
 }

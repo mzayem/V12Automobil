@@ -11,6 +11,7 @@ import type { VehicleImage } from "@/public/type";
 import StockCarousel from "@/components/home/StockCarousel";
 import { getAllStock } from "@/actions/get-stocks";
 import { sortStock } from "@/lib/inventory-filters";
+import { FadeIn, StaggerGroup, StaggerItem } from "@/components/motion/Reveal";
 
 function pickImage(images: VehicleImage[], seed: string) {
   if (images.length === 0) return null;
@@ -144,7 +145,7 @@ export default async function InventoryDetailPage({
 
       <div className="mt-6">
         <VehicleGallery images={media.images} name={title}>
-          <div>
+          <FadeIn amount={0} y={20}>
             {subtitle && (
               <p className="font-serif text-sm uppercase tracking-[0.3em] text-muted">
                 {subtitle}
@@ -192,7 +193,7 @@ export default async function InventoryDetailPage({
                 </a>
               )}
             </div>
-          </div>
+          </FadeIn>
         </VehicleGallery>
       </div>
 
@@ -211,7 +212,7 @@ export default async function InventoryDetailPage({
           <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
 
           <div className="relative mx-auto max-w-7xl px-6 py-16 sm:px-12">
-            <div className="max-w-3xl">
+            <FadeIn className="max-w-3xl">
               <h2 className="font-display text-2xl text-bianco tracking-widest">
                 Key Information
               </h2>
@@ -219,114 +220,127 @@ export default async function InventoryDetailPage({
               <p className="font-serif text-base leading-relaxed whitespace-pre-line text-bianco/85">
                 {advertising.comments}
               </p>
-            </div>
+            </FadeIn>
           </div>
         </section>
       )}
 
       <section className="mt-16">
-        <h2 className="font-display tracking-widest text-2xl text-bianco">
-          Technical Specification
-        </h2>
-        <span className="mt-2 mb-8 block h-px w-16 bg-rosso" />
+        <FadeIn>
+          <h2 className="font-display tracking-widest text-2xl text-bianco">
+            Technical Specification
+          </h2>
+          <span className="mt-2 mb-8 block h-px w-16 bg-rosso" />
+        </FadeIn>
 
-        <div className="grid gap-10 sm:grid-cols-3">
-          <SpecGroup
-            title="Engine &amp; Drivetrain"
-            rows={[
-              {
-                label: "Engine Capacity",
-                value: vehicle.engine_size
-                  ? `${vehicle.engine_size.toLocaleString()} cc`
-                  : undefined,
-              },
-              { label: "Cylinders", value: vehicle.cylinders },
-              { label: "Fuel Type", value: vehicle.fuel_type },
-              { label: "Transmission", value: vehicle.transmission_type },
-              { label: "Drivetrain", value: vehicle.drive_train },
-            ]}
-          />
-          <SpecGroup
-            title="Dimensions"
-            rows={[
-              {
-                label: "Length",
-                value: vehicle.length_mm
-                  ? `${(vehicle.length_mm / 1000).toFixed(2)} m`
-                  : undefined,
-              },
-              {
-                label: "Width",
-                value: vehicle.width_mm
-                  ? `${(vehicle.width_mm / 1000).toFixed(2)} m`
-                  : undefined,
-              },
-              {
-                label: "Height",
-                value: vehicle.height_mm
-                  ? `${(vehicle.height_mm / 1000).toFixed(2)} m`
-                  : undefined,
-              },
-              {
-                label: "Wheelbase",
-                value: vehicle.wheelbase_mm
-                  ? `${(vehicle.wheelbase_mm / 1000).toFixed(2)} m`
-                  : undefined,
-              },
-              {
-                label: "Fuel Tank",
-                value: vehicle.fuel_tank_capacity_litres
-                  ? `${vehicle.fuel_tank_capacity_litres} L`
-                  : undefined,
-              },
-            ]}
-          />
-          <SpecGroup
-            title="Ownership"
-            rows={[
-              { label: "Registration", value: vehicle.registration },
-              { label: "Reg. Date", value: vehicle.registration_date },
-              { label: "Previous Keepers", value: car.previous_keepers },
-              { label: "Doors", value: vehicle.number_of_doors },
-              { label: "Seats", value: vehicle.number_of_seats },
-            ]}
-          />
-        </div>
+        <StaggerGroup className="grid gap-10 sm:grid-cols-3">
+          <StaggerItem>
+            <SpecGroup
+              title="Engine &amp; Drivetrain"
+              rows={[
+                {
+                  label: "Engine Capacity",
+                  value: vehicle.engine_size
+                    ? `${vehicle.engine_size.toLocaleString()} cc`
+                    : undefined,
+                },
+                { label: "Cylinders", value: vehicle.cylinders },
+                { label: "Fuel Type", value: vehicle.fuel_type },
+                { label: "Transmission", value: vehicle.transmission_type },
+                { label: "Drivetrain", value: vehicle.drive_train },
+              ]}
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <SpecGroup
+              title="Dimensions"
+              rows={[
+                {
+                  label: "Length",
+                  value: vehicle.length_mm
+                    ? `${(vehicle.length_mm / 1000).toFixed(2)} m`
+                    : undefined,
+                },
+                {
+                  label: "Width",
+                  value: vehicle.width_mm
+                    ? `${(vehicle.width_mm / 1000).toFixed(2)} m`
+                    : undefined,
+                },
+                {
+                  label: "Height",
+                  value: vehicle.height_mm
+                    ? `${(vehicle.height_mm / 1000).toFixed(2)} m`
+                    : undefined,
+                },
+                {
+                  label: "Wheelbase",
+                  value: vehicle.wheelbase_mm
+                    ? `${(vehicle.wheelbase_mm / 1000).toFixed(2)} m`
+                    : undefined,
+                },
+                {
+                  label: "Fuel Tank",
+                  value: vehicle.fuel_tank_capacity_litres
+                    ? `${vehicle.fuel_tank_capacity_litres} L`
+                    : undefined,
+                },
+              ]}
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <SpecGroup
+              title="Ownership"
+              rows={[
+                { label: "Registration", value: vehicle.registration },
+                { label: "Reg. Date", value: vehicle.registration_date },
+                { label: "Previous Keepers", value: car.previous_keepers },
+                { label: "Doors", value: vehicle.number_of_doors },
+                { label: "Seats", value: vehicle.number_of_seats },
+              ]}
+            />
+          </StaggerItem>
+        </StaggerGroup>
       </section>
 
       <section className="mt-16 border-t border-white/10 pt-8">
-        <h2 className="font-display tracking-widest text-2xl text-bianco">
-          Vehicle Location
-        </h2>
-        <span className="mt-2 mb-8 block h-px w-16 bg-rosso" />
+        <FadeIn>
+          <h2 className="font-display tracking-widest text-2xl text-bianco">
+            Vehicle Location
+          </h2>
+          <span className="mt-2 mb-8 block h-px w-16 bg-rosso" />
 
-        <div className="flex flex-col gap-3 font-serif text-sm text-muted sm:flex-row sm:items-center sm:gap-8">
-          <span className="font-bold text-lg text-bianco">{location.name}</span>
-          {location.telephone && (
-            <a
-              href={`tel:${location.telephone.replace(/[^+\d]/g, "")}`}
-              className="inline-flex items-center gap-2 transition-colors hover:text-rosso"
-            >
-              <Phone className="size-4" />
-              {location.telephone}
-            </a>
-          )}
-          {location.email && (
-            <a
-              href={`mailto:${location.email}`}
-              className="inline-flex items-center gap-2 transition-colors hover:text-rosso"
-            >
-              <Mail className="size-4" />
-              {location.email}
-            </a>
-          )}
-        </div>
-        <p className="mt-6 font-serif text-md leading-relaxed text-muted/70">
-          While we make every effort to ensure the accuracy of the information
-          and specification listed for this vehicle, details are provided in
-          good faith and should be verified before purchase. Please contact us
-          to confirm specification, history and availability.
-        </p>
+          <div className="flex flex-col gap-3 font-serif text-sm text-muted sm:flex-row sm:items-center sm:gap-8">
+            <span className="font-bold text-lg text-bianco">
+              {location.name}
+            </span>
+            {location.telephone && (
+              <a
+                href={`tel:${location.telephone.replace(/[^+\d]/g, "")}`}
+                className="inline-flex items-center gap-2 transition-colors hover:text-rosso"
+              >
+                <Phone className="size-4" />
+                {location.telephone}
+              </a>
+            )}
+            {location.email && (
+              <a
+                href={`mailto:${location.email}`}
+                className="inline-flex items-center gap-2 transition-colors hover:text-rosso"
+              >
+                <Mail className="size-4" />
+                {location.email}
+              </a>
+            )}
+          </div>
+          <p className="mt-6 font-serif text-md leading-relaxed text-muted/70">
+            While we make every effort to ensure the accuracy of the
+            information and specification listed for this vehicle, details
+            are provided in good faith and should be verified before
+            purchase. Please contact us to confirm specification, history and
+            availability.
+          </p>
+        </FadeIn>
       </section>
       <section className="mt-16 border-t border-white/10 pt-8">
         <StockCarousel stock={latestStock.slice(0, 12)} />

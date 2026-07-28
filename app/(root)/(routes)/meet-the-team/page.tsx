@@ -5,10 +5,10 @@ import TeamSection from "@/components/about/TeamSection";
 import TabStrip from "@/components/about/TabStrip";
 
 export const metadata: Metadata = {
-  title: "About Us | V12 Automobil",
+  title: "Meet the Team | V12 Automobil",
 };
 
-export default function AboutUsPage() {
+export default function MeetTheTeamPage() {
   return (
     <>
       <PageHeading
@@ -18,7 +18,7 @@ export default function AboutUsPage() {
         intro="V12 Automobil is a specialist dealer with an uncompromising passion for the machines that defined an era. Every car we present has been driven, assessed, and approved by people who genuinely care."
       />
       <StatsSection />
-      <TabStrip active="About Us" />
+      <TabStrip active="Meet the Team" />
       <TeamSection />
     </>
   );

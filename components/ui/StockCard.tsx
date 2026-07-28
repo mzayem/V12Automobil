@@ -3,15 +3,24 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { DealerKitVehicle } from "@/public/type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { REVEAL_EASE } from "@/components/motion/Reveal";
 
 export default function StockCard({ car }: { car: DealerKitVehicle }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <article className="group">
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.6, ease: REVEAL_EASE }}
+      className="group"
+    >
       <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-white/5">
         <Link
           href={`/inventory/${car.id}`}
@@ -82,6 +91,6 @@ export default function StockCard({ car }: { car: DealerKitVehicle }) {
           &rarr;
         </span>
       </Link>
-    </article>
+    </motion.article>
   );
 }

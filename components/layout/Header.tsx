@@ -303,7 +303,7 @@ function ListItem({
         render={
           <Link href={href}>
             <div className="rounded-lg p-3 text-bianco transition-all duration-200">
-              <div className="mb-1 text-sm font-medium leading-none">
+              <div className="mb-1 text-[16px] font-medium leading-none">
                 {title}
               </div>
             </div>

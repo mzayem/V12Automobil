@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const TABS = [
-  { label: "About Us", href: "/about-us" },
+  { label: "Meet the Team", href: "/meet-the-team" },
   { label: "Why V12 Automobil", href: "/why-v12-automobil" },
   { label: "Our History", href: "/history-of-v12" },
 ];
