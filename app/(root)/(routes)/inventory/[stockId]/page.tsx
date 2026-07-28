@@ -9,6 +9,8 @@ import ShareButton from "@/components/inventory/ShareButton";
 import { Button } from "@/components/ui/button";
 import type { VehicleImage } from "@/public/type";
 import StockCarousel from "@/components/home/StockCarousel";
+import { getAllStock } from "@/actions/get-stocks";
+import { sortStock } from "@/lib/inventory-filters";
 
 function pickImage(images: VehicleImage[], seed: string) {
   if (images.length === 0) return null;
@@ -97,6 +99,10 @@ export default async function InventoryDetailPage({
 }: InventoryDetailParams) {
   const { stockId } = await params;
   const car = await loadStock(stockId);
+  const allStock = await getAllStock();
+  const latestStock = sortStock(allStock, "latest").filter(
+    (item) => item.id !== car.id,
+  );
 
   const { vehicle, prices, advertising, media, location, links } = car;
 
@@ -326,7 +332,7 @@ export default async function InventoryDetailPage({
         </p>
       </section>
       <section className="mt-16 border-t border-white/10 pt-8">
-        <StockCarousel />
+        <StockCarousel stock={latestStock.slice(0, 12)} />
       </section>
     </div>
   );

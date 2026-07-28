@@ -6,10 +6,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getStocks } from "@/actions/get-stocks";
+import { DealerKitVehicle } from "@/public/type";
 
-export default async function StockCarousel() {
-  const stock = await getStocks();
+export default function StockCarousel({
+  stock,
+}: {
+  stock: DealerKitVehicle[];
+}) {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24">
       <Carousel opts={{ align: "start" }}>
@@ -23,7 +26,7 @@ export default async function StockCarousel() {
         </div>
 
         <CarouselContent className="-ml-6">
-          {stock.data.map((car) => (
+          {stock.map((car) => (
             <CarouselItem
               key={car.id}
               className="pl-6 sm:basis-1/2 lg:basis-1/3"
