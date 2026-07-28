@@ -84,7 +84,7 @@ export default function Header() {
             src="/images/v12logo.png"
             alt="V12 Automobil"
             width={200}
-            height={200}
+            height={51}
           />
         </Link>
 

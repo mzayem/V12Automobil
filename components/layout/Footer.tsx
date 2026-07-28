@@ -69,7 +69,7 @@ export default function Footer() {
             src="/images/v12logo.png"
             alt="V12 Automobil"
             width={180}
-            height={180}
+            height={46}
             className="mb-4 -ml-2"
           />
           <p className="mb-6 max-w-xs font-serif text-sm italic leading-relaxed text-bianco/80">
