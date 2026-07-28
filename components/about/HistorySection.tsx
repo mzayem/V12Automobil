@@ -12,7 +12,6 @@ export default function HistorySection() {
         </p>
         <p className="max-w-md font-serif text-sm text-muted">
           The story of how V12 Automobil started — told by our founder, Josh.
-          Video to be added here once filmed.
         </p>
       </div>
 

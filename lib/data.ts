@@ -90,7 +90,7 @@ export const FOOTER_SOCIALS = [
   {
     Id: 1,
     label: "Instagram",
-    href: "https://www.instagram.com/v12automobil/",
+    href: "https://www.instagram.com/V12automobil",
   },
   {
     Id: 2,
@@ -162,6 +162,7 @@ export const FINANCE_OPTIONS: FinanceOption[] = [
 export type TeamMember = {
   name: string;
   role: string;
+  imageSrc?: string;
   phone?: string;
   email?: string;
   facebook?: string;
@@ -171,20 +172,27 @@ export type TeamMember = {
 
 export const TEAM: TeamMember[] = [
   {
-    name: "Josh",
+    name: "Josh Apps",
     role: "CEO / Founder",
-    email: "info@v12automobil.com",
+    imageSrc: "/images/team/Josh_1e546be37e.jpg",
+    email: "Josh@v12automobil.co.uk",
+    instagram: "https://www.instagram.com/V12automobil",
+    linkedin: "https://www.linkedin.com/in/josh-apps-8b1109228/",
   },
   {
-    name: "Georgi",
+    name: "Georgi Vasilev",
     role: "Senior Operations Specialist",
-    email: "hello@v12automobil.com",
-    phone: "+44 (0) 1234 567 890",
+    imageSrc: "/images/team/Georgi_03d6c7d684.jpg",
+    email: "georgi@v12automobil.co.uk",
+    phone: "+44 (0) 7883 748 278",
   },
   {
-    name: "Max",
-    role: "Sales",
-    email: "hello@v12automobil.com",
-    phone: "+44 (0) 1234 567 890",
+    name: "Jack Borsos",
+    role: "Head of Sale",
+    imageSrc: "/images/team/Jack_c32cb03d65.jpg",
+    email: "jack@v12automobil.co.uk",
+    phone: "+44 (0) 7534 638 884",
+    instagram: "https://www.instagram.com/Jack_v12automobil",
+    linkedin: "https://www.linkedin.com/in/jack-borsos/",
   },
 ];
