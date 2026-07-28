@@ -4,6 +4,7 @@ import { useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -202,24 +203,32 @@ export default function EnquireDialog({
   const hasPartExchange = watch("hasPartExchange");
   const hasMessage = watch("hasMessage");
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(async (values) => {
     setLoading(true);
-    toast.promise(createSalesLead(buildPayload(stockListingId, values)), {
-      loading: "Sending your enquiry...",
-      success: () => {
-        setOpen(false);
-        reset(defaultValues);
-        return "Thanks — we've received your enquiry and will be in touch shortly.";
-      },
-      error: "Something went wrong. Please try again.",
-    });
-    setLoading(false);
+    try {
+      await toast.promise(
+        createSalesLead(buildPayload(stockListingId, values)),
+        {
+          loading: "Sending your enquiry...",
+          success: () => {
+            setOpen(false);
+            reset(defaultValues);
+            return "Thanks — we've received your enquiry and will be in touch shortly.";
+          },
+          error: "Something went wrong. Please try again.",
+        },
+      );
+    } catch {
+    } finally {
+      setLoading(false);
+    }
   });
 
   return (
     <Dialog
       open={open}
       onOpenChange={(next) => {
+        if (loading) return;
         setOpen(next);
         if (!next) reset(defaultValues);
       }}
@@ -517,11 +526,22 @@ export default function EnquireDialog({
                 <FieldError errors={[errors.message]} />
               </Field>
             )}
-            <Button type="submit" form={FORM_ID} className="w-full shrink-0">
+            <Button
+              type="submit"
+              form={FORM_ID}
+              disabled={loading}
+              className="w-full shrink-0"
+            >
               Send Enquiry
             </Button>
           </form>
         </ScrollArea>
+
+        {loading && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-night/80 backdrop-blur-sm">
+            <Loader2 className="size-8 animate-spin text-bianco" />
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
