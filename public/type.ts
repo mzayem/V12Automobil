@@ -201,7 +201,7 @@ export interface CreateSaleLeadPayload {
   type: LeadType;
   person: LeadPerson;
   stock_listing_id: string;
-  part_exchange: LeadVehicle;
+  part_exchange?: LeadVehicle;
   note?: string;
   message?: LeadMessage;
   tracking?: LeadTracking;

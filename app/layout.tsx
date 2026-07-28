@@ -4,7 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NextTopLoader from "nextjs-toploader";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toast";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 

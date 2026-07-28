@@ -6,7 +6,7 @@ import { ArrowLeft, FileText, Mail, Phone } from "lucide-react";
 import { getStock } from "@/actions/get-stock";
 import VehicleGallery from "@/components/inventory/VehicleGallery";
 import ShareButton from "@/components/inventory/ShareButton";
-import { Button } from "@/components/ui/button";
+import EnquireDialog from "@/components/inventory/EnquireDialog";
 import type { VehicleImage } from "@/public/type";
 import StockCarousel from "@/components/home/StockCarousel";
 import { getAllStock } from "@/actions/get-stocks";
@@ -177,9 +177,7 @@ export default async function InventoryDetailPage({
 
             <div className="mt-6 flex flex-col gap-3">
               <div className="flex gap-2 items-between">
-                <Button className="flex-1 rounded-lg font-bold text-sm uppercase tracking-[0.2em]">
-                  Enquire Now
-                </Button>
+                <EnquireDialog stockListingId={car.id} className="flex-1" />
                 <ShareButton title={title} className="flex-1" />
               </div>
               {links?.silent_salesman && (
