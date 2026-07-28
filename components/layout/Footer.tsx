@@ -13,6 +13,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  YoutubeIcon,
+} from "@/components/icons/SocialIcons";
+
+const SOCIAL_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  Instagram: InstagramIcon,
+  Facebook: FacebookIcon,
+  LinkedIn: LinkedinIcon,
+  YouTube: YoutubeIcon,
+};
 
 function FooterColumn({
   title,
@@ -104,6 +117,7 @@ export default function Footer() {
           {/* Socials */}
           <div className="mt-6 flex gap-3">
             {FOOTER_SOCIALS.map((social) => {
+              const Icon = SOCIAL_ICONS[social.label];
               return (
                 <Tooltip key={social.Id}>
                   <TooltipTrigger
@@ -115,9 +129,13 @@ export default function Footer() {
                         aria-label={social.label}
                       />
                     }
-                    className="flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-xs font-semibold text-muted transition-all hover:-translate-y-0.5 hover:border-rosso hover:text-rosso"
+                    className="flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-muted transition-all hover:-translate-y-0.5 hover:border-rosso hover:text-rosso"
                   >
-                    {social.label[0]}
+                    {Icon ? (
+                      <Icon className="size-4" />
+                    ) : (
+                      social.label[0]
+                    )}
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{social.label}</p>

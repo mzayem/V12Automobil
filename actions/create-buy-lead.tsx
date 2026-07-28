@@ -4,10 +4,10 @@ const BASE_URL = process.env.DEALERKIT_BASE_URL!;
 const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
-import { CreateLeadPayload, LeadResponse } from "@/public/type";
+import { CreateBuyLeadPayload, LeadResponse } from "@/public/type";
 
-export async function createLead(
-  payload: CreateLeadPayload,
+export async function createBuyLead(
+  payload: CreateBuyLeadPayload,
 ): Promise<LeadResponse> {
   const url = `${BASE_URL}/leads?dealer_id=${DEALER_ID}`;
 

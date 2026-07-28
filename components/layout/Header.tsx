@@ -24,6 +24,22 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { CONTACT, FOOTER_SOCIALS } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  YoutubeIcon,
+} from "@/components/icons/SocialIcons";
+
+const SOCIAL_ICONS: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  Instagram: InstagramIcon,
+  Facebook: FacebookIcon,
+  LinkedIn: LinkedinIcon,
+  YouTube: YoutubeIcon,
+};
 
 type MobileNavItem = {
   label: string;
@@ -252,18 +268,21 @@ export default function Header() {
                 {CONTACT.phone}
               </a>
               <div className="flex items-center justify-center gap-3">
-                {FOOTER_SOCIALS.map((social) => (
-                  <a
-                    key={social.Id}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center border border-white/15 text-xs font-semibold text-bianco/70 transition-colors hover:border-rosso hover:text-rosso"
-                  >
-                    {social.label[0]}
-                  </a>
-                ))}
+                {FOOTER_SOCIALS.map((social) => {
+                  const Icon = SOCIAL_ICONS[social.label];
+                  return (
+                    <a
+                      key={social.Id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="flex h-9 w-9 items-center justify-center border border-white/15 text-bianco/70 transition-colors hover:border-rosso hover:text-rosso"
+                    >
+                      {Icon ? <Icon className="size-4" /> : social.label[0]}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </DrawerContent>

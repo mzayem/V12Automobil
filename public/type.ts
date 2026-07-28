@@ -121,7 +121,7 @@ export interface ListMeta {
   total: number;
 }
 
-export type LeadType = "buying";
+export type LeadType = "buying" | "sales";
 
 export type LeadPersonTitle =
   | "Mr"
@@ -149,9 +149,7 @@ export interface LeadPerson {
   first_name: string;
   last_name: string;
   company_name?: string;
-  /** Required without `telephone`. */
   email?: string;
-  /** Required without `email`. */
   telephone?: string;
   marketing_consent: LeadMarketingConsent;
   updated_at: string;
@@ -190,10 +188,20 @@ export interface LeadTracking {
   utm_term?: string;
 }
 
-export interface CreateLeadPayload {
+export interface CreateBuyLeadPayload {
   type: LeadType;
   person: LeadPerson;
   vehicle: LeadVehicle;
+  note?: string;
+  message?: LeadMessage;
+  tracking?: LeadTracking;
+}
+
+export interface CreateSaleLeadPayload {
+  type: LeadType;
+  person: LeadPerson;
+  stock_listing_id: string;
+  part_exchange: LeadVehicle;
   note?: string;
   message?: LeadMessage;
   tracking?: LeadTracking;

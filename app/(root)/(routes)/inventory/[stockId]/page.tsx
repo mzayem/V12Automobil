@@ -99,8 +99,7 @@ export default async function InventoryDetailPage({
 }: InventoryDetailParams) {
   const { stockId } = await params;
   const car = await loadStock(stockId);
-  const allStock = await getAllStock();
-  const latestStock = sortStock(allStock, "latest").filter(
+  const latestStock = sortStock(await getAllStock(), "latest").filter(
     (item) => item.id !== car.id,
   );
 

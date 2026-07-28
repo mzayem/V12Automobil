@@ -18,7 +18,7 @@ export default function Hero() {
         <h1 className="font-display text-6xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl">
           <span className="block text-amber-50">Driven by</span>
           <span className="block text-rosso">Passion.</span>
-          <span className="mt-6 block text-bianco">Driven by</span>
+          <span className="mt-6 block text-bianco">Defined by</span>
           <span className="block text-verde">Trust.</span>
         </h1>
 
