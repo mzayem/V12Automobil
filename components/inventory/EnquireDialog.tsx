@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { createSalesLead } from "@/actions/create-sales-lead";
-import { DealerKitError } from "@/lib/dealerkit-error";
+import { DealerKitError, unwrapDealerKitResult } from "@/lib/dealerkit-error";
 import type { CreateSaleLeadPayload } from "@/public/type";
 
 const FORM_ID = "enquire-form";
@@ -208,7 +208,9 @@ export default function EnquireDialog({
     setLoading(true);
     try {
       await toast.promise(
-        createSalesLead(buildPayload(stockListingId, values)),
+        createSalesLead(buildPayload(stockListingId, values)).then(
+          unwrapDealerKitResult,
+        ),
         {
           loading: "Sending your enquiry...",
           success: () => {

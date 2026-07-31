@@ -8,7 +8,7 @@ import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { getValuations } from "@/actions/get-valuations";
-import { DealerKitError } from "@/lib/dealerkit-error";
+import { DealerKitError, unwrapDealerKitResult } from "@/lib/dealerkit-error";
 import type { ValuationResponse } from "@/public/type";
 
 const formSchema = z.object({
@@ -39,6 +39,7 @@ export default function PlateValuationForm({
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<PlateFormValues>({
     resolver: zodResolver(formSchema),
@@ -49,17 +50,47 @@ export default function PlateValuationForm({
     const vrm = values.registration.trim().toUpperCase();
     const mileage = Number(values.mileage);
 
-    await toast.promise(getValuations({ vrm, mileage }), {
-      loading: "Looking up your valuation...",
-      success: (valuation) => {
-        onValuation(valuation, vrm, mileage);
-        return "Here's your estimated valuation.";
-      },
-      error: (error) =>
-        error instanceof DealerKitError
-          ? error.message
-          : "Something went wrong. Please try again.",
-    });
+    try {
+      await toast.promise(
+        getValuations({ vrm, mileage }).then(unwrapDealerKitResult),
+        {
+          loading: "Looking up your valuation...",
+          success: (valuation) => {
+            onValuation(valuation, vrm, mileage);
+            return "Here's your estimated valuation.";
+          },
+          error: (error) => {
+            if (!(error instanceof DealerKitError)) {
+              return "Something went wrong. Please try again.";
+            }
+
+            if (error.status === 404) {
+              setError("registration", {
+                type: "server",
+                message:
+                  "No valuation found for this registration — double-check the details and try again.",
+              });
+            } else {
+              for (const [field, messages] of Object.entries(
+                error.errors ?? {},
+              )) {
+                const formField = field === "vrm" ? "registration" : field;
+                if (formField === "registration" || formField === "mileage") {
+                  setError(formField, {
+                    type: "server",
+                    message: messages[0],
+                  });
+                }
+              }
+            }
+
+            return error.message;
+          },
+        },
+      );
+    } catch {
+      // Already surfaced via the toast and/or inline field error above.
+    }
   });
 
   return (

@@ -29,7 +29,7 @@ import {
 import { FadeIn } from "@/components/motion/Reveal";
 import PlateValuationForm from "./PlateValuationForm";
 import { createBuyLead } from "@/actions/create-buy-lead";
-import { DealerKitError } from "@/lib/dealerkit-error";
+import { DealerKitError, unwrapDealerKitResult } from "@/lib/dealerkit-error";
 import type { CreateBuyLeadPayload, ValuationResponse } from "@/public/type";
 
 const FORM_ID = "sell-car-form";
@@ -211,7 +211,7 @@ export default function SellCarForm() {
             { ...vehicle, appraisedValue: valuation?.data.valuation.retail },
             values,
           ),
-        ),
+        ).then(unwrapDealerKitResult),
         {
           loading: "Sending your details...",
           success: () => {

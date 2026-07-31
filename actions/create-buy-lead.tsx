@@ -5,11 +5,11 @@ const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
 import { CreateBuyLeadPayload, LeadResponse } from "@/public/type";
-import { throwDealerKitError } from "@/lib/dealerkit-error";
+import { readDealerKitError, DealerKitResult } from "@/lib/dealerkit-error";
 
 export async function createBuyLead(
   payload: CreateBuyLeadPayload,
-): Promise<LeadResponse> {
+): Promise<DealerKitResult<LeadResponse>> {
   const url = `${BASE_URL}/leads?dealer_id=${DEALER_ID}`;
 
   const response = await fetch(url, {
@@ -22,8 +22,9 @@ export async function createBuyLead(
   });
 
   if (!response.ok) {
-    await throwDealerKitError(response);
+    return readDealerKitError(response);
   }
 
-  return response.json() as Promise<LeadResponse>;
+  const data = (await response.json()) as LeadResponse;
+  return { ok: true, data };
 }
