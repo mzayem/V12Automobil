@@ -5,7 +5,7 @@ const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
 import { CreateSaleLeadPayload, LeadResponse } from "@/public/type";
-import { readDealerKitError, DealerKitResult } from "@/lib/dealerkit-error";
+import { readLeadError, DealerKitResult } from "@/lib/dealerkit-error";
 
 export async function createSalesLead(
   payload: CreateSaleLeadPayload,
@@ -22,7 +22,7 @@ export async function createSalesLead(
   });
 
   if (!response.ok) {
-    return readDealerKitError(response);
+    return readLeadError(response);
   }
 
   const data = (await response.json()) as LeadResponse;

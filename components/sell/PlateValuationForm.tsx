@@ -94,7 +94,7 @@ export default function PlateValuationForm({
   });
 
   return (
-    <div className="relative mx-auto max-w-2xl overflow-hidden rounded-lg border border-white/10 bg-linear-to-b from-white/8 to-white/[0.03] p-8 text-center shadow-2xl shadow-black/40 sm:p-11">
+    <div className="relative mx-auto max-w-2xl overflow-hidden rounded-lg border border-white/10 bg-linear-to-b from-white/8 to-white/3 p-8 text-center shadow-2xl shadow-black/40 sm:p-11">
       <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-rosso" />
 
       <span className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border-2 border-rosso text-rosso">

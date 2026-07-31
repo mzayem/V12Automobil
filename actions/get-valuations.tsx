@@ -1,7 +1,7 @@
 "use server";
 
 import { ValuationResponse, ValuationRequest } from "@/public/type";
-import { readDealerKitError, DealerKitResult } from "@/lib/dealerkit-error";
+import { readValuationError, DealerKitResult } from "@/lib/dealerkit-error";
 
 const BASE_URL = process.env.DEALERKIT_BASE_URL!;
 const DEALER_ID = process.env.DEALERKIT_ID!;
@@ -23,7 +23,7 @@ export async function getValuations(
   });
 
   if (!response.ok) {
-    return readDealerKitError(response);
+    return readValuationError(response);
   }
 
   const data = (await response.json()) as ValuationResponse;
