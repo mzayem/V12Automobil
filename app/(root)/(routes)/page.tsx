@@ -2,7 +2,7 @@ import Hero from "@/components/home/Hero";
 import AboutSection from "@/components/home/AboutSection";
 import StatsSection from "@/components/home/StatsSection";
 import StockCarousel from "@/components/home/StockCarousel";
-import SellCarForm from "@/components/home/SellCarForm";
+import SellCarForm from "@/components/sell/SellCarForm";
 import { getAllStock } from "@/actions/get-stocks";
 import { sortStock } from "@/lib/inventory-filters";
 

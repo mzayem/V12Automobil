@@ -213,3 +213,28 @@ export interface LeadResponse {
     type: LeadType;
   };
 }
+
+export interface ValuationRequest {
+  vrm: string;
+  mileage: number;
+}
+
+export interface ValuationResponse {
+  data: {
+    vehicle: {
+      manufacturer: string;
+      model: string;
+      derivative: string;
+      mileage: number;
+      owners: number;
+    };
+    valuation: {
+      retail: number;
+      clean: number;
+      average: number;
+      below: number;
+    };
+    id: string;
+    date: string;
+  };
+}

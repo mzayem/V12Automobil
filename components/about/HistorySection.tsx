@@ -3,7 +3,7 @@ import { Play } from "lucide-react";
 export default function HistorySection() {
   return (
     <section className="mx-auto max-w-6xl border-t border-white/10 px-6 py-24">
-      <div className="flex min-h-[340px] flex-col items-center justify-center gap-4 rounded-lg border border-white/10 bg-linear-to-br from-white/[0.06] to-transparent p-10 text-center">
+      <div className="flex min-h-85 flex-col items-center justify-center gap-4 rounded-lg border border-white/10 bg-linear-to-br from-white/6 to-transparent p-10 text-center">
         <span className="flex size-16 items-center justify-center rounded-full border-2 border-rosso text-rosso">
           <Play className="size-6 fill-rosso" />
         </span>

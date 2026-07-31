@@ -1,16 +1,16 @@
 "use server";
 
+import { ValuationResponse, ValuationRequest } from "@/public/type";
+import { throwDealerKitError } from "@/lib/dealerkit-error";
+
 const BASE_URL = process.env.DEALERKIT_BASE_URL!;
 const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
-import { CreateSaleLeadPayload, LeadResponse } from "@/public/type";
-import { throwDealerKitError } from "@/lib/dealerkit-error";
-
-export async function createSalesLead(
-  payload: CreateSaleLeadPayload,
-): Promise<LeadResponse> {
-  const url = `${BASE_URL}/leads?dealer_id=${DEALER_ID}`;
+export async function getValuations(
+  payload: ValuationRequest,
+): Promise<ValuationResponse> {
+  const url = `${BASE_URL}/valuations?dealer_id=${DEALER_ID}`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -19,11 +19,12 @@ export async function createSalesLead(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
+    cache: "no-store",
   });
 
   if (!response.ok) {
     await throwDealerKitError(response);
   }
 
-  return response.json() as Promise<LeadResponse>;
+  return response.json() as Promise<ValuationResponse>;
 }

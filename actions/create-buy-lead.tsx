@@ -5,6 +5,7 @@ const DEALER_ID = process.env.DEALERKIT_ID!;
 const TOKEN = process.env.DEALERKIT_TOKEN!;
 
 import { CreateBuyLeadPayload, LeadResponse } from "@/public/type";
+import { throwDealerKitError } from "@/lib/dealerkit-error";
 
 export async function createBuyLead(
   payload: CreateBuyLeadPayload,
@@ -21,9 +22,7 @@ export async function createBuyLead(
   });
 
   if (!response.ok) {
-    throw new Error(
-      `DealerKit API Error (${response.status}): ${response.statusText}`,
-    );
+    await throwDealerKitError(response);
   }
 
   return response.json() as Promise<LeadResponse>;

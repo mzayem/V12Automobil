@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { createSalesLead } from "@/actions/create-sales-lead";
+import { DealerKitError } from "@/lib/dealerkit-error";
 import type { CreateSaleLeadPayload } from "@/public/type";
 
 const FORM_ID = "enquire-form";
@@ -115,7 +116,7 @@ const formSchema = z
 type EnquireFormValues = z.infer<typeof formSchema>;
 
 const defaultValues: EnquireFormValues = {
-  title: "",
+  title: "Mr",
   firstName: "",
   lastName: "",
   companyName: "",
@@ -124,7 +125,7 @@ const defaultValues: EnquireFormValues = {
   hasPartExchange: false,
   pxRegistration: "",
   pxMileage: "",
-  pxServiceHistory: "",
+  pxServiceHistory: "None",
   pxCondition: "",
   pxAppraisedValue: "",
   pxFinanceAmount: "",
@@ -215,7 +216,10 @@ export default function EnquireDialog({
             reset(defaultValues);
             return "Thanks — we've received your enquiry and will be in touch shortly.";
           },
-          error: "Something went wrong. Please try again.",
+          error: (error) =>
+            error instanceof DealerKitError
+              ? error.message
+              : "Something went wrong. Please try again.",
         },
       );
     } catch {
@@ -245,8 +249,8 @@ export default function EnquireDialog({
       >
         Enquire Now
       </DialogTrigger>
-      <DialogContent className="max-h-[85vh] w-full max-w-2xl p-6 sm:max-w-2xl">
-        <ScrollArea className="max-h-[75vh] overflow-y-auto">
+      <DialogContent className="max-h-[85vh] w-full max-w-2xl p-6 sm:max-w-3xl">
+        <ScrollArea className="max-h-[75vh] overflow-y-auto pr-3">
           <DialogHeader className="mb-4">
             <DialogTitle className="font-display text-lg uppercase tracking-widest text-bianco">
               Enquire About This Car
