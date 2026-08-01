@@ -17,9 +17,9 @@ export default function MeetTheTeamPage() {
         title="More Than Just Cars"
         intro="V12 Automobil is a specialist dealer with an uncompromising passion for the machines that defined an era. Every car we present has been driven, assessed, and approved by people who genuinely care."
       />
-      <StatsSection />
       <TabStrip active="Meet the Team" />
       <TeamSection />
+      <StatsSection />
     </>
   );
 }

@@ -188,6 +188,7 @@ export default function SellCarForm() {
     defaultValues,
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const hasFinance = watch("hasFinance");
   const hasMessage = watch("hasMessage");
 
@@ -250,9 +251,9 @@ export default function SellCarForm() {
             TIME TO CHANGE YOUR CAR?
           </h2>
           <p className="mx-auto mb-10 max-w-xl text-center font-serif text-base leading-relaxed text-bianco/85">
-            Enter your registration number below for an instant,
-            no-obligation valuation — then share a few details and our team
-            will be in touch with a bespoke offer.
+            Enter your registration number below for an instant, no-obligation
+            valuation — then share a few details and our team will be in touch
+            with a bespoke offer.
           </p>
         </FadeIn>
 
@@ -301,11 +302,16 @@ export default function SellCarForm() {
                   {valuation.data.vehicle.derivative}
                 </p>
                 <p className="font-display mt-2 text-3xl text-rosso">
-                  £{valuation.data.valuation.retail.toLocaleString()}
+                  Est. £{valuation.data.valuation.retail.toLocaleString()}
                 </p>
                 <p className="mt-1 font-serif text-xs text-muted-foreground">
                   Estimated retail value for {vehicle.vrm} &middot;{" "}
                   {vehicle.mileage.toLocaleString()} mi
+                </p>
+                <p className="mt-3 font-serif text-xs italic text-muted-foreground">
+                  This is an indicative estimate, not a final offer — your
+                  actual offer will be confirmed after a full vehicle
+                  inspection.
                 </p>
               </div>
             )}

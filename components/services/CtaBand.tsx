@@ -22,6 +22,7 @@ export default function CtaBand({
         <Button
           size="lg"
           className="px-6"
+          nativeButton={false}
           render={<Link href={`tel:${CONTACT.phone.replace(/[^+\d]/g, "")}`} />}
         >
           <Phone className="size-4" />

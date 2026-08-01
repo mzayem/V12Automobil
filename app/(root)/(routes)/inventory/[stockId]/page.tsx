@@ -7,6 +7,9 @@ import { getStock } from "@/actions/get-stock";
 import VehicleGallery from "@/components/inventory/VehicleGallery";
 import ShareButton from "@/components/inventory/ShareButton";
 import EnquireDialog from "@/components/inventory/EnquireDialog";
+import FinanceQuoteDropdown from "@/components/inventory/FinanceQuoteDropdown";
+import SpecAccordionGroup from "@/components/inventory/SpecAccordionGroup";
+import ListingComments from "@/components/inventory/ListingComments";
 import type { VehicleImage } from "@/public/type";
 import StockCarousel from "@/components/home/StockCarousel";
 import { getAllStock } from "@/actions/get-stocks";
@@ -64,33 +67,6 @@ function SpecRow({
         {label}
       </dt>
       <dd className="text-sm text-bianco">{value}</dd>
-    </div>
-  );
-}
-
-function SpecGroup({
-  title,
-  rows,
-}: {
-  title: string;
-  rows: { label: string; value?: string | number | null }[];
-}) {
-  const visible = rows.filter(
-    (r) => r.value !== undefined && r.value !== null && r.value !== "",
-  );
-  if (visible.length === 0) return null;
-
-  return (
-    <div>
-      <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-rosso">
-        {title}
-      </h3>
-      <span className="mt-2 mb-1 block h-px w-10 bg-rosso" />
-      <dl className="divide-y divide-white/10">
-        {visible.map((r) => (
-          <SpecRow key={r.label} label={r.label} value={r.value} />
-        ))}
-      </dl>
     </div>
   );
 }
@@ -165,9 +141,7 @@ export default async function InventoryDetailPage({
               £{prices.cash.amount.toLocaleString()}
             </p>
             {prices.monthly?.amount ? (
-              <p className="mt-1 font-serif text-sm text-muted">
-                From £{prices.monthly.amount.toLocaleString()} / month
-              </p>
+              <FinanceQuoteDropdown monthly={prices.monthly} />
             ) : null}
 
             <dl className="mt-6 divide-y divide-white/10 border-y border-white/10">
@@ -217,9 +191,7 @@ export default async function InventoryDetailPage({
                 Key Information
               </h2>
               <span className="mt-2 mb-6 block h-px w-16 bg-rosso" />
-              <p className="font-serif text-base leading-relaxed whitespace-pre-line text-bianco/85">
-                {advertising.comments}
-              </p>
+              <ListingComments comments={advertising.comments} />
             </FadeIn>
           </div>
         </section>
@@ -235,7 +207,7 @@ export default async function InventoryDetailPage({
 
         <StaggerGroup className="grid gap-10 sm:grid-cols-3">
           <StaggerItem>
-            <SpecGroup
+            <SpecAccordionGroup
               title="Engine &amp; Drivetrain"
               rows={[
                 {
@@ -252,7 +224,7 @@ export default async function InventoryDetailPage({
             />
           </StaggerItem>
           <StaggerItem>
-            <SpecGroup
+            <SpecAccordionGroup
               title="Dimensions"
               rows={[
                 {
@@ -289,14 +261,14 @@ export default async function InventoryDetailPage({
             />
           </StaggerItem>
           <StaggerItem>
-            <SpecGroup
+            <SpecAccordionGroup
               title="Ownership"
               rows={[
-                { label: "Registration", value: vehicle.registration },
+                // { label: "Registration", value: vehicle.registration },
                 { label: "Reg. Date", value: vehicle.registration_date },
                 { label: "Previous Keepers", value: car.previous_keepers },
-                { label: "Doors", value: vehicle.number_of_doors },
-                { label: "Seats", value: vehicle.number_of_seats },
+                // { label: "Doors", value: vehicle.number_of_doors },
+                // { label: "Seats", value: vehicle.number_of_seats },
               ]}
             />
           </StaggerItem>
@@ -310,7 +282,7 @@ export default async function InventoryDetailPage({
           </h2>
           <span className="mt-2 mb-8 block h-px w-16 bg-rosso" />
 
-          <div className="flex flex-col gap-3 font-serif text-sm text-muted sm:flex-row sm:items-center sm:gap-8">
+          <div className="flex flex-col gap-3 font-serif text-lg text-muted sm:flex-row sm:items-center sm:gap-8">
             <span className="font-bold text-lg text-bianco">
               {location.name}
             </span>
@@ -334,16 +306,30 @@ export default async function InventoryDetailPage({
             )}
           </div>
           <p className="mt-6 font-serif text-md leading-relaxed text-muted/70">
-            While we make every effort to ensure the accuracy of the
-            information and specification listed for this vehicle, details
-            are provided in good faith and should be verified before
-            purchase. Please contact us to confirm specification, history and
-            availability.
+            While we make every effort to ensure the accuracy of the information
+            and specification listed for this vehicle, details are provided in
+            good faith and should be verified before purchase. Please contact us
+            to confirm specification, history and availability.
           </p>
         </FadeIn>
       </section>
       <section className="mt-16 border-t border-white/10 pt-8">
         <StockCarousel stock={latestStock.slice(0, 12)} />
+      </section>
+
+      <section className="border-t border-white/10 pt-6">
+        <p className="font-serif text-xs leading-relaxed text-muted/70">
+          <strong className="font-semibold text-muted">
+            Finance is Subject to Status.
+          </strong>{" "}
+          V12 Automobil Limited is authorised &amp; regulated by the FCA [FRN
+          1033823]. We are a credit broker not a lender. We work with a select
+          group of lenders and will receive commission. The full details of how
+          the commission arrangements work will be provided before you proceed
+          with any arrangement. Finance subject to status and income. Terms and
+          Conditions apply. The advice we provide is not impartial due to our
+          commercial relationships with lenders. ICO number [ZB325217].
+        </p>
       </section>
     </div>
   );

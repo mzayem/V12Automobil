@@ -132,6 +132,7 @@ export default function VehicleGallery({
                       src={image.url}
                       alt={`${name} — photo ${i + 1}`}
                       fill
+                      quality={90}
                       sizes="(min-width: 1024px) 60vw, 100vw"
                       className={cn(
                         "object-cover transition-opacity duration-300",

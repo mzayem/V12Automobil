@@ -157,7 +157,7 @@ export default function PlateValuationForm({
       </form>
 
       <p className="mt-7 font-serif text-xs tracking-wide text-bianco/50">
-        No obligation &middot; Free to use &middot; Results in seconds
+        No obligation &middot; Free to use &middot; Estimated Value
       </p>
     </div>
   );

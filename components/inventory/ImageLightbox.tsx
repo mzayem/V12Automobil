@@ -267,6 +267,7 @@ export default function ImageLightbox({
               src={current.url}
               alt={`${name} — photo ${index + 1}`}
               fill
+              quality={95}
               sizes="100vw"
               className={cn(
                 "object-contain select-none transition-opacity duration-200",

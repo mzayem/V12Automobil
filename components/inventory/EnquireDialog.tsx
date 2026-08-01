@@ -201,6 +201,7 @@ export default function EnquireDialog({
     defaultValues,
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const hasPartExchange = watch("hasPartExchange");
   const hasMessage = watch("hasMessage");
 
@@ -249,13 +250,13 @@ export default function EnquireDialog({
           />
         }
       >
-        Enquire Now
+        Book a Viewing
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] w-full max-w-2xl p-6 sm:max-w-3xl">
         <ScrollArea className="max-h-[75vh] overflow-y-auto pr-3">
           <DialogHeader className="mb-4">
             <DialogTitle className="font-display text-lg uppercase tracking-widest text-bianco">
-              Enquire About This Car
+              Book a Viewing
             </DialogTitle>
           </DialogHeader>
 

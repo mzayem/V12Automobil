@@ -83,8 +83,8 @@ export const NAV_RIGHT = [
 ];
 
 export const STATS = [
-  { value: "1,000+", label: "Cars Sourced & Sold", bar: "bg-verde" },
-  { value: "8", label: "Years Established", bar: "bg-bianco" },
+  { value: " 2,500+", label: "Cars Sourced & Sold", bar: "bg-verde" },
+  { value: "£11.5M", label: "Funded", bar: "bg-bianco" },
   { value: "99%", label: "Customer Satisfaction", bar: "bg-rosso" },
 ];
 

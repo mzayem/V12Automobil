@@ -65,7 +65,7 @@ export default function Header() {
         <NavigationMenu className="hidden flex-1 justify-end md:flex">
           <NavigationMenuList className="gap-2">
             {NAV_LEFT.map((item) => (
-              <NavigationMenuItem key={item.href}>
+              <NavigationMenuItem key={item.label}>
                 {item.children ? (
                   <>
                     <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
@@ -108,7 +108,7 @@ export default function Header() {
         <NavigationMenu className="hidden flex-1 justify-end md:flex">
           <NavigationMenuList className="gap-2">
             {NAV_RIGHT.map((item) => (
-              <NavigationMenuItem key={item.href}>
+              <NavigationMenuItem key={item.label}>
                 {item.children ? (
                   <>
                     <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
@@ -185,7 +185,7 @@ export default function Header() {
                 if (!hasChildren) {
                   return (
                     <DrawerClose
-                      key={item.href}
+                      key={item.label}
                       render={<Link href={item.href} />}
                       className="group flex items-center gap-4 border-b border-white/5 px-4 py-4 text-left transition-colors last:border-none hover:bg-white/5"
                     >
@@ -199,18 +199,18 @@ export default function Header() {
                   );
                 }
 
-                const isExpanded = openMobileItem === item.href;
+                const isExpanded = openMobileItem === item.label;
 
                 return (
                   <div
-                    key={item.href}
+                    key={item.label}
                     className="border-b border-white/5 last:border-none"
                   >
                     <button
                       type="button"
                       aria-expanded={isExpanded}
                       onClick={() =>
-                        setOpenMobileItem(isExpanded ? null : item.href)
+                        setOpenMobileItem(isExpanded ? null : item.label)
                       }
                       className="group flex w-full items-center gap-4 px-4 py-4 text-left transition-colors hover:bg-white/5"
                     >
