@@ -45,6 +45,24 @@ export const NAV_LEFT = [
 export const NAV_RIGHT = [
   { label: "Sell Your Car", href: "/sell-your-car" },
   {
+    label: "Services",
+    href: "/#",
+    children: [
+      {
+        label: "V12 Services",
+        href: "/services",
+      },
+      {
+        label: "Vehicle Sourcing",
+        href: "/services/vehicle-sourcing",
+      },
+      {
+        label: "Warranty",
+        href: "/services/warranty",
+      },
+    ],
+  },
+  {
     label: "About Us",
     href: "/#",
     children: [

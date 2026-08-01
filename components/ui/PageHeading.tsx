@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { FadeIn } from "@/components/motion/Reveal";
@@ -7,11 +8,15 @@ export default function PageHeading({
   title,
   intro,
   bgSrc,
+  ctaLabel,
+  ctaHref,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   bgSrc?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }) {
   return (
     <div
@@ -47,6 +52,14 @@ export default function PageHeading({
           <p className="mt-6 font-serif text-lg leading-relaxed text-bianco/85">
             {intro}
           </p>
+        )}
+        {ctaLabel && ctaHref && (
+          <Link
+            href={ctaHref}
+            className="mt-8 inline-flex items-center rounded-full bg-rosso px-8 py-3 font-display text-sm uppercase tracking-[0.15em] text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-rosso/25"
+          >
+            {ctaLabel}
+          </Link>
         )}
       </FadeIn>
     </div>
